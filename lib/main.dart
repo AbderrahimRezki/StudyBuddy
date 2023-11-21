@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/core/theme/color_scheme.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
 import 'package:study_buddy/presentation/pages/feed.dart';
+import 'package:study_buddy/presentation/pages/leaderboard.dart';
 import 'package:study_buddy/presentation/widgets/navigation_bar.dart';
 import 'package:study_buddy/presentation/widgets/top_bar.dart';
 
@@ -26,10 +27,8 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int pageIndex = 0;
-  final List<Widget> pages = [
-    const Feed(),
-  ];
+  int pageIndex = 1;
+  final List<Widget> pages = [const Feed(), const LeaderBoard()];
 
   @override
   Widget build(BuildContext context) {
