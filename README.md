@@ -1,3 +1,2 @@
-# study_buddy
-
-A new Flutter project.
+# StudyBuddy
+An app to help you become more focused with your studies!
