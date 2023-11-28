@@ -6,9 +6,13 @@ class PostEntity extends Equatable {
   final UserEntity user;
   String description;
   int claps;
+  bool isClapped;
 
   PostEntity(
-      {required this.user, required this.description, required this.claps});
+      {required this.user,
+      required this.description,
+      required this.claps,
+      this.isClapped = false});
 
   @override
   List<Object> get props => [user, description, claps];

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:study_buddy/core/theme/color_scheme.dart';
 import 'package:study_buddy/domain/entities/post_entity.dart';
+import 'package:study_buddy/presentation/bloc/cubits/post_cubit.dart';
+import 'package:study_buddy/presentation/bloc/states/post_state.dart';
 import 'package:study_buddy/presentation/widgets/card_content.dart';
 
 class AchievementCard extends StatefulWidget {
@@ -18,15 +21,19 @@ class _AchievementCardState extends State<AchievementCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        color: MyColorScheme.white,
-        borderRadius: BorderRadius.circular(10),
-        shadowColor: MyColorScheme.lightGray,
-        elevation: 1,
-        child: buildCardContent(),
-      ),
+    return BlocBuilder<PostCubit, PostState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Material(
+            color: MyColorScheme.white,
+            borderRadius: BorderRadius.circular(10),
+            shadowColor: MyColorScheme.lightGray,
+            elevation: 1,
+            child: buildCardContent(),
+          ),
+        );
+      },
     );
   }
 
@@ -63,15 +70,15 @@ class _AchievementCardState extends State<AchievementCard> {
           icon: SvgPicture.asset("assets/icons/hands-clapping.svg",
               colorFilter: ColorFilter.mode(clapsColor, BlendMode.srcIn)),
           onPressed: () {
-            isLiked ? widget.post.claps-- : widget.post.claps++;
-            isLiked = !isLiked;
-            clapsColor =
-                isLiked ? MyColorScheme.primaryColor : MyColorScheme.textColor;
-            setState(() {});
+            context.read<PostCubit>().toggleClap();
+            clapsColor = context.read<PostCubit>().state.post.isClapped
+                ? MyColorScheme.primaryColor
+                : MyColorScheme.textColor;
           },
         ),
         Text(
-          "${widget.post.claps}",
+          // "${widget.post.claps}",
+          "${context.read<PostCubit>().state.post.claps}",
           style: TextStyle(color: clapsColor, fontWeight: FontWeight.bold),
         )
       ],

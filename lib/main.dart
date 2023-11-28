@@ -27,7 +27,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int pageIndex = 1;
+  int pageIndex = 0;
   final List<Widget> pages = [const Feed(), const LeaderBoard()];
 
   @override

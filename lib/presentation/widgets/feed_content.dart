@@ -1,43 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:study_buddy/data/repositories/post_repository.dart';
 import 'package:study_buddy/domain/entities/post_entity.dart';
-import 'package:study_buddy/domain/entities/user_entity.dart';
+import 'package:study_buddy/domain/usecases/get_all_posts.dart';
+import 'package:study_buddy/presentation/bloc/cubits/post_cubit.dart';
+import 'package:study_buddy/presentation/bloc/states/post_state.dart';
 import 'package:study_buddy/presentation/widgets/achievement_card.dart';
 
-class FeedContent extends StatefulWidget {
-  const FeedContent({super.key});
+class FeedContent extends StatelessWidget {
+  FeedContent({
+    super.key,
+  });
 
-  @override
-  State<FeedContent> createState() => _FeedContentState();
-}
-
-class _FeedContentState extends State<FeedContent> {
-  final List<PostEntity> posts = [
-    PostEntity(
-        user: const UserEntity(
-            nickName: "Karim",
-            profilePicturePath: "assets/images/male.png",
-            progress: 79),
-        description:
-            "Aliquid saepe et amet sit impedit nesciunt vel at dolores. Recusandae ut et. Omnis pariatur illo expedita. In laboriosam et officiis quis possimus. Et quas molestiae rerum voluptates vero dolorem. Error repudiandae et.",
-        claps: 300),
-  ];
+  final getAllPosts = GetAllPostsUseCaseImpl(PostRepository());
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          physics: const BouncingScrollPhysics(),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return index < 9
-                ? AchievementCard(
-                    post: posts[0],
-                  )
-                : const SizedBox(
-                    height: 100,
-                  );
-          }),
+      child: FutureBuilder(
+        future: getAllPosts(null),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<PostEntity>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                scrollDirection: Axis.vertical,
+                physics: const BouncingScrollPhysics(),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return index < snapshot.data!.length
+                      ? BlocProvider(
+                          create: (context) => PostCubit(snapshot.data![index]),
+                          child: BlocBuilder<PostCubit, PostState>(
+                            builder: (context, state) {
+                              return AchievementCard(
+                                post: state.post,
+                              );
+                            },
+                          ),
+                        )
+                      : const SizedBox(
+                          height: 100,
+                        );
+                });
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 }
