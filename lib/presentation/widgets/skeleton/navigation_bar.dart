@@ -12,12 +12,12 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   int selectedIndex = 0;
-  final List<NavigationBarItemEntity> navigationBarItems = const [
-    NavigationBarItemEntity(
+  final List<NavigationBarItemEntity> navigationBarItems = [
+    const NavigationBarItemEntity(
         iconPath: "assets/icons/tasks.svg", itemTitle: "Tasks"),
-    NavigationBarItemEntity(
+    const NavigationBarItemEntity(
         iconPath: "assets/icons/timer.svg", itemTitle: "Timer"),
-    NavigationBarItemEntity(
+    const NavigationBarItemEntity(
         iconPath: "assets/icons/people.svg", itemTitle: "People")
   ];
 

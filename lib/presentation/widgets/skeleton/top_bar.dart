@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:study_buddy/core/theme/color_scheme.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
-import 'package:study_buddy/presentation/widgets/avatar_image.dart';
-import 'package:study_buddy/presentation/widgets/user_progress.dart';
+import 'package:study_buddy/presentation/widgets/skeleton/avatar_image.dart';
+import 'package:study_buddy/presentation/widgets/skeleton/user_progress.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
   final UserEntity user;

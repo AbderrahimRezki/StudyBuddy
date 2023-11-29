@@ -5,7 +5,7 @@ import 'package:study_buddy/domain/entities/post_entity.dart';
 import 'package:study_buddy/domain/usecases/get_all_posts.dart';
 import 'package:study_buddy/presentation/bloc/cubits/post_cubit.dart';
 import 'package:study_buddy/presentation/bloc/states/post_state.dart';
-import 'package:study_buddy/presentation/widgets/achievement_card.dart';
+import 'package:study_buddy/presentation/widgets/feed/achievement_card.dart';
 
 class FeedContent extends StatelessWidget {
   FeedContent({

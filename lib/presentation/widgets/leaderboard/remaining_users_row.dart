@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/core/theme/color_scheme.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
-import 'package:study_buddy/presentation/widgets/avatar_image.dart';
+import 'package:study_buddy/presentation/widgets/skeleton/avatar_image.dart';
 
 class RemainingUsersRow extends StatelessWidget {
   const RemainingUsersRow({super.key, required this.user, this.index = 0});

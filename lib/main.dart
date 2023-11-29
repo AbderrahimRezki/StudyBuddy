@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/core/theme/color_scheme.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
-import 'package:study_buddy/presentation/pages/feed.dart';
-import 'package:study_buddy/presentation/pages/leaderboard.dart';
-import 'package:study_buddy/presentation/widgets/navigation_bar.dart';
-import 'package:study_buddy/presentation/widgets/top_bar.dart';
+import 'package:study_buddy/presentation/pages/community/community.dart';
+
+import 'core/theme/color_scheme.dart';
+import 'presentation/widgets/skeleton/navigation_bar.dart';
+import 'presentation/widgets/skeleton/top_bar.dart';
 
 void main() {
   const UserEntity user = UserEntity(
@@ -28,15 +28,16 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   int pageIndex = 0;
-  final List<Widget> pages = [const Feed(), const LeaderBoard()];
+  final List<Widget> pages = [const Community()];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: themeData,
+        // theme: themeData,
         home: SafeArea(
           child: Scaffold(
+              backgroundColor: MyColorScheme.backgroundColor,
               appBar: TopBar(user: widget.user),
               body: Stack(
                 alignment: Alignment.bottomCenter,

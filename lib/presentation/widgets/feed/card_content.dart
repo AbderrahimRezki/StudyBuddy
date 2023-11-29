@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/domain/entities/post_entity.dart';
-import 'package:study_buddy/presentation/widgets/avatar_image.dart';
+import 'package:study_buddy/presentation/widgets/skeleton/avatar_image.dart';
 
 class CardContent extends StatelessWidget {
   const CardContent({super.key, required this.post});

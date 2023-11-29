@@ -13,6 +13,8 @@ class MyColorScheme {
   static Color splashColor = Colors.transparent;
   static Color highlightColor = Colors.transparent;
   static Color hoverColor = Colors.transparent;
+
+  static Color clapColor = MyColorScheme.primaryColor;
 }
 
 final ColorScheme colorScheme = ColorScheme(

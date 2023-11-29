@@ -9,7 +9,7 @@ class PostRepository implements IPostRepository {
     return [
       PostEntity(
           user: const UserEntity(
-              nickName: "Karim",
+              nickName: "Amine LHouma",
               profilePicturePath: "assets/images/male.png",
               progress: 97),
           description:
@@ -33,12 +33,12 @@ class PostRepository implements IPostRepository {
           claps: 100),
       PostEntity(
           user: const UserEntity(
-              nickName: "Amir",
+              nickName: "3ami Chebli",
               profilePicturePath: "assets/images/male.png",
-              progress: 97),
+              progress: 100),
           description:
               "Natus error voluptate quod beatae rem veniam sunt. Quibusdam eius nesciunt voluptatibus eius laborum officia quos sequi est. Dolores voluptates cum quos quibusdam odit rerum corporis ullam. Minus est quae rerum nihil. Officiis vel placeat. Explicabo illo natus sed quia sint minus ab.",
-          claps: 100),
+          claps: 100000),
       PostEntity(
           user: const UserEntity(
               nickName: "Ayoub",

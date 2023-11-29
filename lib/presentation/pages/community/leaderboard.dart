@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
-import 'package:study_buddy/presentation/widgets/leaderboard_row.dart';
-import 'package:study_buddy/presentation/widgets/remaining_users.dart';
+import 'package:study_buddy/presentation/widgets/leaderboard/leaderboard_row.dart';
+import 'package:study_buddy/presentation/widgets/leaderboard/remaining_users.dart';
 
 class LeaderBoard extends StatefulWidget {
   const LeaderBoard({super.key});

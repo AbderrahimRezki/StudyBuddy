@@ -5,19 +5,11 @@ import 'package:study_buddy/core/theme/color_scheme.dart';
 import 'package:study_buddy/domain/entities/post_entity.dart';
 import 'package:study_buddy/presentation/bloc/cubits/post_cubit.dart';
 import 'package:study_buddy/presentation/bloc/states/post_state.dart';
-import 'package:study_buddy/presentation/widgets/card_content.dart';
+import 'package:study_buddy/presentation/widgets/feed/card_content.dart';
 
-class AchievementCard extends StatefulWidget {
+class AchievementCard extends StatelessWidget {
   final PostEntity post;
   const AchievementCard({super.key, required this.post});
-
-  @override
-  State<AchievementCard> createState() => _AchievementCardState();
-}
-
-class _AchievementCardState extends State<AchievementCard> {
-  bool isLiked = false;
-  Color clapsColor = MyColorScheme.textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -30,58 +22,62 @@ class _AchievementCardState extends State<AchievementCard> {
             borderRadius: BorderRadius.circular(10),
             shadowColor: MyColorScheme.lightGray,
             elevation: 1,
-            child: buildCardContent(),
+            child: buildCardContent(context),
           ),
         );
       },
     );
   }
 
-  Stack buildCardContent() {
+  Stack buildCardContent(context) {
     return Stack(
       alignment: Alignment.topRight,
       children: [
         Image.asset("assets/backgrounds/medal.png"),
-        buildColumn(),
+        buildColumn(context),
       ],
     );
   }
 
-  Column buildColumn() {
+  Column buildColumn(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CardContent(
-          post: widget.post,
+          post: post,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15.0, bottom: 15),
-          child: buildRow(),
+          child: buildRow(context),
         ),
       ],
     );
   }
 
-  Row buildRow() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: SvgPicture.asset("assets/icons/hands-clapping.svg",
-              colorFilter: ColorFilter.mode(clapsColor, BlendMode.srcIn)),
-          onPressed: () {
-            context.read<PostCubit>().toggleClap();
-            clapsColor = context.read<PostCubit>().state.post.isClapped
-                ? MyColorScheme.primaryColor
-                : MyColorScheme.textColor;
-          },
-        ),
-        Text(
-          // "${widget.post.claps}",
-          "${context.read<PostCubit>().state.post.claps}",
-          style: TextStyle(color: clapsColor, fontWeight: FontWeight.bold),
-        )
-      ],
+  Widget buildRow(context) {
+    return BlocBuilder<PostCubit, PostState>(
+      builder: (context, state) {
+        Color clapsColor = state.post.isClapped
+            ? MyColorScheme.clapColor
+            : MyColorScheme.textColor;
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: SvgPicture.asset("assets/icons/hands-clapping.svg",
+                  colorFilter: ColorFilter.mode(clapsColor, BlendMode.srcIn)),
+              onPressed: () {
+                context.read<PostCubit>().toggleClap();
+              },
+            ),
+            Text(
+              // "${widget.post.claps}",
+              "${state.post.claps}",
+              style: TextStyle(color: clapsColor, fontWeight: FontWeight.bold),
+            )
+          ],
+        );
+      },
     );
   }
 }

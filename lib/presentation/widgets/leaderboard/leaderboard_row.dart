@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
-import 'package:study_buddy/presentation/widgets/avatar_image_with_rank.dart';
+import 'package:study_buddy/presentation/widgets/leaderboard/avatar_image_with_rank.dart';
 
 class LeaderBoardRow extends StatelessWidget {
   final List<UserEntity> topUsers;

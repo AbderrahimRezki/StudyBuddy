@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
-import 'package:study_buddy/presentation/widgets/remaining_users_row.dart';
+import 'package:study_buddy/presentation/widgets/leaderboard/remaining_users_row.dart';
 
 class RemainingUsers extends StatefulWidget {
   const RemainingUsers({super.key});
