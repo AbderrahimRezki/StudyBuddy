@@ -31,8 +31,10 @@ final ColorScheme colorScheme = ColorScheme(
   onSurface: MyColorScheme.textColor,
 );
 
-final ThemeData themeData =
-    ThemeData(hintColor: MyColorScheme.lightGray, colorScheme: colorScheme);
+final ThemeData themeData = ThemeData(
+    fontFamily: "Raleway",
+    hintColor: MyColorScheme.lightGray,
+    colorScheme: colorScheme);
 
 final TextStyle regularTextStyle =
     TextStyle(color: MyColorScheme.textColor, fontSize: 18);

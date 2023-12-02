@@ -4,10 +4,12 @@ import 'package:equatable/equatable.dart';
 class NavigationBarItemEntity extends Equatable {
   final String itemTitle;
   final String iconPath;
+  final String route;
 
   const NavigationBarItemEntity({
     required this.itemTitle,
     required this.iconPath,
+    required this.route,
   });
 
   @override

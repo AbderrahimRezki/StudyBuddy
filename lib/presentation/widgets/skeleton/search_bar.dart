@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/core/theme/color_scheme.dart';
+import 'package:study_buddy/core/theme/theme.dart';
 
 class MySearchBar extends StatelessWidget {
   const MySearchBar({super.key});

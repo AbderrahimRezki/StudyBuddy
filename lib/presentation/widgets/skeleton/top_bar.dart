@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:study_buddy/core/theme/color_scheme.dart';
+import 'package:study_buddy/core/constants/routes.dart';
+import 'package:study_buddy/core/theme/theme.dart';
 import 'package:study_buddy/domain/entities/user_entity.dart';
 import 'package:study_buddy/presentation/widgets/skeleton/avatar_image.dart';
 import 'package:study_buddy/presentation/widgets/skeleton/user_progress.dart';
@@ -19,20 +20,18 @@ class TopBar extends StatefulWidget implements PreferredSizeWidget {
 class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: buildTopBarContent(),
-          ),
-          const Divider(
-            indent: 20,
-            endIndent: 20,
-          )
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: buildTopBarContent(),
+        ),
+        const Divider(
+          indent: 20,
+          endIndent: 20,
+        )
+      ],
     );
   }
 
@@ -41,8 +40,11 @@ class _TopBarState extends State<TopBar> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        AvatarImage(
-            profilePicturePath: widget.user.profilePicturePath, radius: 20),
+        GestureDetector(
+          onTap: () => Navigator.of(context).pushReplacementNamed(profileRoute),
+          child: AvatarImage(
+              profilePicturePath: widget.user.profilePicturePath, radius: 20),
+        ),
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 20),
           child: buildColumn(),

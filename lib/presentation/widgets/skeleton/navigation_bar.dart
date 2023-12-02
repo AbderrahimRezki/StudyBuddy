@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:study_buddy/core/theme/color_scheme.dart';
+import 'package:study_buddy/core/theme/theme.dart';
 import 'package:study_buddy/domain/entities/navigation_item_entity.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -14,11 +14,15 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   int selectedIndex = 0;
   final List<NavigationBarItemEntity> navigationBarItems = [
     const NavigationBarItemEntity(
-        iconPath: "assets/icons/tasks.svg", itemTitle: "Tasks"),
+        iconPath: "assets/icons/tasks.svg", itemTitle: "Tasks", route: "/add"),
     const NavigationBarItemEntity(
-        iconPath: "assets/icons/timer.svg", itemTitle: "Timer"),
+        iconPath: "assets/icons/timer.svg",
+        itemTitle: "Timer",
+        route: "/timer"),
     const NavigationBarItemEntity(
-        iconPath: "assets/icons/people.svg", itemTitle: "People")
+        iconPath: "assets/icons/people.svg",
+        itemTitle: "People",
+        route: "/community")
   ];
 
   @override
@@ -37,6 +41,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             for (int index = 0; index < navigationBarItems.length; index++)
               GestureDetector(
                 onTap: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(navigationBarItems[index].route);
+
                   selectedIndex = index;
                   setState(() {});
                 },

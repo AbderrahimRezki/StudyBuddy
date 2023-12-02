@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/core/theme/color_scheme.dart';
+import 'package:study_buddy/core/theme/theme.dart';
 import 'package:study_buddy/presentation/widgets/skeleton/progress_bar.dart';
 
 class UserProgress extends StatelessWidget {
