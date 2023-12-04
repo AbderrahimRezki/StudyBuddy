@@ -27,7 +27,7 @@ class TaskCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 6,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -36,7 +36,7 @@ class TaskCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -62,7 +62,7 @@ class TaskCard extends StatelessWidget {
               _buildCategoryTag(context, 'Task'),
               const SizedBox(width: 8),
               _buildCategoryTag(context, category),
-              Spacer(),
+              const Spacer(),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -72,7 +72,7 @@ class TaskCard extends StatelessWidget {
                 ),
                 child: Text(
                   timeLeft,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -94,7 +94,7 @@ class TaskCard extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
