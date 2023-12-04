@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../notifications/notifications.dart';
+import 'package:study_buddy/features/notifications/notifications.dart';
 import 'stat.dart';
 import 'achievements.dart';
 import 'activity.dart';
@@ -14,10 +14,6 @@ class UserProfileScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         backgroundColor: const Color(0xFF006CDA),
         elevation: 0,
         actions: [
@@ -25,7 +21,10 @@ class UserProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications,
                 color: Color(0xFFF59D11), size: 30),
             onPressed: () {
-              Navigator.of(context).pushNamed(NotificationsPage.pageRoute);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotificationsPage()));
             },
           ),
         ],
@@ -36,6 +35,7 @@ class UserProfileScreen extends StatelessWidget {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 expandedHeight: 190, // Add space for the avatar
                 floating: false,
                 pinned: true,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:study_buddy/core/constants/routes.dart';
 import 'package:study_buddy/core/theme/theme.dart';
 import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
+import 'package:study_buddy/features/notifications/notifications.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/avatar_image.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/user_progress.dart';
+import 'package:study_buddy/features/userprofile/userprofilescreen.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
   final UserEntity user;
@@ -41,7 +42,12 @@ class _TopBarState extends State<TopBar> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         GestureDetector(
-          onTap: () => Navigator.of(context).pushReplacementNamed(profileRoute),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen()));
+          },
           child: AvatarImage(
               profilePicturePath: widget.user.profilePicturePath, radius: 20),
         ),
@@ -49,13 +55,18 @@ class _TopBarState extends State<TopBar> {
           padding: const EdgeInsets.only(left: 20, top: 20),
           child: buildColumn(),
         ),
-        SvgPicture.asset(
-          "assets/icons/notifications.svg",
-          width: 30,
-          height: 30,
-          colorFilter: ColorFilter.mode(MyColorScheme.green, BlendMode.srcIn),
-          fit: BoxFit.contain,
-        )
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotificationsPage()));
+            },
+            icon: Icon(
+              Icons.notifications,
+              color: MyColorScheme.secondaryColor,
+              size: 32,
+            ))
       ],
     );
   }
