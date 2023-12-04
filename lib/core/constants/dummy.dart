@@ -1,4 +1,4 @@
-import '../../domain/entities/user_entity.dart';
+import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
 
 const UserEntity user = UserEntity(
   nickName: "Mohamed",
