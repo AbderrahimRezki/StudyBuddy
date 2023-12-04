@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/core/constants/dummy.dart';
-import 'package:study_buddy/features/skeleton/presentation/widgets/navigation_bar.dart';
-import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
 
 class AddTaskScreenState extends StatefulWidget {
   static const pageRoute = "/add";
@@ -36,37 +33,26 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Scaffold(
-            appBar: const TopBar(user: user),
-            body: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/background.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  child: ListView(
-                    children: <Widget>[
-                      _buildTaskCard(),
-                      const SizedBox(height: 20),
-                      _buildCategorySection(),
-                      const SizedBox(height: 20),
-                      _buildActionButtons(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/backgrounds/background.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          child: ListView(
+            children: <Widget>[
+              _buildTaskCard(),
+              const SizedBox(height: 20),
+              _buildCategorySection(),
+              const SizedBox(height: 20),
+              _buildActionButtons(),
+            ],
           ),
-          const MyNavigationBar()
-        ],
+        ),
       ),
     );
   }

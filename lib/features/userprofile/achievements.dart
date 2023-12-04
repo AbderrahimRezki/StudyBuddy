@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
-import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
 
 class AchievementsPage extends StatelessWidget {
   static const pageRoute = "/achievement";
@@ -8,45 +6,36 @@ class AchievementsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const TopBar(
-        user: UserEntity(
-          nickName: "Mohamed",
-          profilePicturePath: "assets/images/male.png",
-          progress: 70,
+    return ListView(
+      children: const <Widget>[
+        LevelProgressBar(
+          currentLevel: 2,
+          currentPoints: 5200,
+          pointsNeeded: 6000,
         ),
-      ),
-      body: ListView(
-        children: const <Widget>[
-          LevelProgressBar(
-            currentLevel: 2,
-            currentPoints: 5200,
-            pointsNeeded: 6000,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+          child: Text(
+            'Medals',
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF9098A3)),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            child: Text(
-              'Medals',
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF9098A3)),
-            ),
+        ),
+        MedalsSection(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+          child: Text(
+            'Certifications',
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF9098A3)),
           ),
-          MedalsSection(),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            child: Text(
-              'Certifications',
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF9098A3)),
-            ),
-          ),
-          CertificationsSection(),
-        ],
-      ),
+        ),
+        CertificationsSection(),
+      ],
     );
   }
 }

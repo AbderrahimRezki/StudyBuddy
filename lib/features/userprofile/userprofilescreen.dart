@@ -16,7 +16,7 @@ class UserProfileScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pushReplacementNamed("/add"),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: const Color(0xFF006CDA),
         elevation: 0,
@@ -25,8 +25,7 @@ class UserProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications,
                 color: Color(0xFFF59D11), size: 30),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NotificationsPage()));
+              Navigator.of(context).pushNamed(NotificationsPage.pageRoute);
             },
           ),
         ],
@@ -68,7 +67,7 @@ class UserProfileScreen extends StatelessWidget {
                               child: CircleAvatar(
                                 radius: avatarRadius - 2,
                                 backgroundImage:
-                                    AssetImage('assets/images/userprofil.png'),
+                                    AssetImage('assets/images/male.png'),
                               ),
                             ),
                           ),

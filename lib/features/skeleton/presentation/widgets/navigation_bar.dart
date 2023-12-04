@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:study_buddy/core/theme/theme.dart';
 import 'package:study_buddy/features/skeleton/domain/entities/navigation_item_entity.dart';
+import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
+import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
 
 class MyNavigationBar extends StatefulWidget {
   const MyNavigationBar({super.key});
@@ -27,33 +30,36 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
-      height: 100,
-      decoration: BoxDecoration(gradient: linearGradient()),
-      child: Material(
-        color: MyColorScheme.white,
-        borderRadius: BorderRadius.circular(50),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            for (int index = 0; index < navigationBarItems.length; index++)
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(navigationBarItems[index].route);
-
-                  selectedIndex = index;
-                  setState(() {});
-                },
-                child: NavigationBarItem(
-                    navigationBarItem: navigationBarItems[index],
-                    isSelected: index == selectedIndex),
-              )
-          ]),
-        ),
-      ),
+    return BlocBuilder<PageCubit, PageState>(
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
+          height: 100,
+          decoration: BoxDecoration(gradient: linearGradient()),
+          child: Material(
+            color: MyColorScheme.white,
+            borderRadius: BorderRadius.circular(50),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (int index = 0;
+                        index < navigationBarItems.length;
+                        index++)
+                      GestureDetector(
+                        onTap: () {
+                          context.read<PageCubit>().changePage(index);
+                        },
+                        child: NavigationBarItem(
+                            navigationBarItem: navigationBarItems[index],
+                            isSelected: index == state.index),
+                      )
+                  ]),
+            ),
+          ),
+        );
+      },
     );
   }
 

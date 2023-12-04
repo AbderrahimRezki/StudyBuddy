@@ -5,7 +5,7 @@ import 'package:study_buddy/features/community/domain/respositories/post_reposit
 class PostRepository implements IPostRepository {
   @override
   Future<List<PostEntity>> getAllPosts() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 1));
     return [
       PostEntity(
           user: const UserEntity(
