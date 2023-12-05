@@ -30,12 +30,12 @@ class _MainAppState extends State<MainApp> {
           return SafeArea(
               child: Scaffold(
                   backgroundColor: MyColorScheme.backgroundColor,
-                  appBar: TopBar(user: state.loggedInUser),
+                  appBar: (state.index > 1) ? const TopBar() : null,
                   body: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
                       state.pages[context.watch<PageCubit>().state.index],
-                      const MyNavigationBar()
+                      if (state.index > 1) const MyNavigationBar()
                     ],
                   )));
         }));

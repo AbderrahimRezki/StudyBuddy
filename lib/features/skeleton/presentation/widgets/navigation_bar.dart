@@ -49,11 +49,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                         index++)
                       GestureDetector(
                         onTap: () {
-                          context.read<PageCubit>().changePage(index);
+                          context.read<PageCubit>().changePage(index + 2);
                         },
                         child: NavigationBarItem(
                             navigationBarItem: navigationBarItems[index],
-                            isSelected: index == state.index),
+                            isSelected: index + 2 == state.index),
                       )
                   ]),
             ),

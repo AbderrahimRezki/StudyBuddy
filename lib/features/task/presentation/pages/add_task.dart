@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
 
 class AddTaskScreenState extends StatefulWidget {
   static const pageRoute = "/add";
@@ -33,24 +34,29 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/backgrounds/background.jpg'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          child: ListView(
-            children: <Widget>[
-              _buildTaskCard(),
-              const SizedBox(height: 20),
-              _buildCategorySection(),
-              const SizedBox(height: 20),
-              _buildActionButtons(),
-            ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: const TopBar(),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/backgrounds/background.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              child: ListView(
+                children: <Widget>[
+                  _buildTaskCard(),
+                  const SizedBox(height: 20),
+                  _buildCategorySection(),
+                  const SizedBox(height: 20),
+                  _buildActionButtons(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -166,7 +172,9 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
           child: const Text('Save'),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             backgroundColor: Colors.red,
