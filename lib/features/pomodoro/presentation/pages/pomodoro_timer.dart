@@ -26,7 +26,7 @@ class Pomodoro extends StatelessWidget {
                   remainingTime: state.remainingTime,
                   totalTime: state.totalTime,
                   fillColor: state.isRestTime
-                      ? MyColorScheme.lightGray
+                      ? MyColorScheme.primaryColor
                       : MyColorScheme.green,
                   strokeWidth: 15,
                   dimension: 300,
@@ -37,12 +37,11 @@ class Pomodoro extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                            onPressed: () {
-                              context.watch<PomodoroCubit>().startOrReset();
-                            },
-                            icon: context.read<PomodoroCubit>().isPlaying
-                                ? const Icon(Icons.replay)
-                                : const Icon(Icons.play_arrow)),
+                            onPressed:
+                                context.read<PomodoroCubit>().startOrReset,
+                            icon: Icon(state.isActive
+                                ? Icons.replay
+                                : Icons.play_arrow))
                       ]),
                 )
               ],

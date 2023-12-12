@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:study_buddy/core/constants/time_constants.dart';
 
 class PomodoroState extends Equatable {
   final Duration totalTime;
@@ -17,18 +18,19 @@ class PomodoroState extends Equatable {
       this.isActive = false});
 
   PomodoroState copyWith(
-      {Duration? totalTime,
-      Duration? restTime,
-      Duration? remainingTime,
-      int? completedSessions,
-      bool? isRestTime,
-      bool? isActive}) {
-    return PomodoroState(
-        totalTime: totalTime ?? this.totalTime,
-        restTime: restTime ?? this.restTime,
-        remainingTime: remainingTime ?? this.remainingTime,
-        completedSessions: completedSessions ?? this.completedSessions);
-  }
+          {Duration? totalTime,
+          Duration? restTime,
+          Duration? remainingTime,
+          int? completedSessions,
+          bool? isRestTime,
+          bool? isActive}) =>
+      PomodoroState(
+          totalTime: totalTime ?? this.totalTime,
+          restTime: restTime ?? this.restTime,
+          remainingTime: remainingTime ?? this.remainingTime,
+          completedSessions: completedSessions ?? this.completedSessions,
+          isRestTime: isRestTime ?? this.isRestTime,
+          isActive: isActive ?? this.isActive);
 
   @override
   List<Object> get props =>
@@ -37,8 +39,8 @@ class PomodoroState extends Equatable {
 
 class PomodoroInitialState extends PomodoroState {
   const PomodoroInitialState(
-      {super.totalTime = const Duration(minutes: 30),
-      super.restTime = const Duration(minutes: 5),
-      super.remainingTime = const Duration(minutes: 30),
+      {super.totalTime = thirtyMinutes,
+      super.restTime = fiveMinutes,
+      super.remainingTime = thirtyMinutes,
       super.completedSessions = 0});
 }

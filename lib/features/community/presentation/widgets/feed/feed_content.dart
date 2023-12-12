@@ -12,7 +12,7 @@ class FeedContent extends StatelessWidget {
     super.key,
   });
 
-  final getAllPosts = GetAllPostsUseCaseImpl(PostRepository());
+  final getAllPosts = GetAllPostsUseCase(PostRepository());
 
   @override
   Widget build(BuildContext context) {
