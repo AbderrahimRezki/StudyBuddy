@@ -1,3 +1,3 @@
-const Duration thirtyMinutes = Duration(minutes: 30);
-const Duration fiveMinutes = Duration(minutes: 5);
+const Duration thirtyMinutes = Duration(seconds: 30);
+const Duration fiveMinutes = Duration(seconds: 5);
 const Duration oneSecond = Duration(seconds: 1);

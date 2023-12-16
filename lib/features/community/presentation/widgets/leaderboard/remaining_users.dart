@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
+import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/community/presentation/widgets/leaderboard/remaining_users_row.dart';
 
 class RemainingUsers extends StatefulWidget {
@@ -12,6 +12,7 @@ class RemainingUsers extends StatefulWidget {
 class RemainingUsersState extends State<RemainingUsers> {
   List<UserEntity> users = const [
     UserEntity(
+        userId: 2,
         nickName: "Wassim",
         profilePicturePath: "assets/images/male.png",
         progress: 50)

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:study_buddy/core/theme/theme.dart';
+import 'package:study_buddy/config/theme/theme.dart';
 import 'package:study_buddy/features/notifications/notifications.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';

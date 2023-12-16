@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/core/theme/theme.dart';
+import 'package:study_buddy/config/theme/theme.dart';
 import 'package:study_buddy/core/utils/duration_formatter.dart';
 
 class CircularTimer extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:study_buddy/core/theme/theme.dart';
+import 'package:study_buddy/config/theme/theme.dart';
 import 'package:study_buddy/features/community/domain/entities/post_entity.dart';
 import 'package:study_buddy/features/community/presentation/bloc/cubits/post_cubit.dart';
 import 'package:study_buddy/features/community/presentation/bloc/states/post_state.dart';

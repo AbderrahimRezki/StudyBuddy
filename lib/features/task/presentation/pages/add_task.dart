@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
+import 'package:study_buddy/features/task/data/repositories/tasks_repository.dart';
+import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
+import 'package:study_buddy/features/task/domain/usecases/add_task.dart';
 
 class AddTaskScreenState extends StatefulWidget {
   static const pageRoute = "/add";
+  static final _titleController = TextEditingController();
+  static final _descriptionController = TextEditingController();
+
   const AddTaskScreenState({super.key});
 
   @override
@@ -15,9 +21,9 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
     'Physique',
     'His/Geo',
     'Science',
-    'Phylo',
-    'Techno',
-    'Islamia',
+    'Philosophy',
+    'Technology',
+    'Islamic',
     'Design',
     'Sport',
     'Others'
@@ -74,6 +80,7 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: AddTaskScreenState._titleController,
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Title',
@@ -86,10 +93,14 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
               style: const TextStyle(
                 fontSize: 18,
               ),
+              onChanged: (value) {
+                AddTaskScreenState._titleController.text = value;
+              },
               onSaved: (value) {},
             ),
             const SizedBox(height: 10),
             TextFormField(
+              controller: AddTaskScreenState._descriptionController,
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Today I will do ... ',
@@ -98,6 +109,9 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
                 fontSize: 18,
               ),
               maxLines: 3,
+              onChanged: (value) {
+                AddTaskScreenState._descriptionController.text = value;
+              },
               onSaved: (value) {},
             ),
           ],
@@ -161,7 +175,22 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            var title = AddTaskScreenState._titleController.text;
+            var description = AddTaskScreenState._descriptionController.text;
+
+            var task = TaskEntity(
+                taskId: 0,
+                userId: 0,
+                taskTitle: title,
+                taskDescription: description);
+
+            var params =
+                AddTaskParams(taskRepository: TaskRepositoryImpl(), task: task);
+            AddTaskUseCase()(params).then((value) {
+              Navigator.of(context).pop();
+            });
+          },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             backgroundColor: const Color(0xFF32CD32),

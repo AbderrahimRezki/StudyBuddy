@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
+import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/community/presentation/widgets/leaderboard/avatar_image_with_rank.dart';
 
 class LeaderBoardRow extends StatelessWidget {

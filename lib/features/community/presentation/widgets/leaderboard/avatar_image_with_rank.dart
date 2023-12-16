@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/core/theme/theme.dart';
-import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
+import 'package:study_buddy/config/theme/theme.dart';
+import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/avatar_image.dart';
 
 class AvatarImageWithRank extends StatelessWidget {

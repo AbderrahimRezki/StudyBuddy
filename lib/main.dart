@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:study_buddy/core/theme/theme.dart';
+import 'package:study_buddy/config/theme/theme.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/navigation_bar.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
 
-void main() {
+Future<void> main() async {
   runApp(BlocProvider(
     create: (context) => PageCubit(),
     child: const MainApp(),

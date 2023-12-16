@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:study_buddy/features/community/domain/entities/user_entity.dart';
+import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
 class PostEntity extends Equatable {
