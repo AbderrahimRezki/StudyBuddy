@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:study_buddy/dependency_injection.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
-import 'package:study_buddy/features/task/data/repositories/tasks_repository.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 import 'package:study_buddy/features/task/domain/usecases/add_task.dart';
 
@@ -185,9 +185,7 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
                 taskTitle: title,
                 taskDescription: description);
 
-            var params =
-                AddTaskParams(taskRepository: TaskRepositoryImpl(), task: task);
-            AddTaskUseCase()(params).then((value) {
+            locator<AddTaskUseCase>()(params: task).then((value) {
               Navigator.of(context).pop();
             });
           },

@@ -2,22 +2,12 @@ import 'package:study_buddy/core/usecases/usecase.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 import 'package:study_buddy/features/task/domain/repositories/tasks_repository.dart';
 
-class AddTaskParams {
-  final TaskRepository taskRepository;
-  final TaskEntity task;
+class AddTaskUseCase implements UseCase<bool, TaskEntity> {
+  final TaskRepository _taskRepository;
+  const AddTaskUseCase(this._taskRepository);
 
-  const AddTaskParams({required this.taskRepository, required this.task});
-}
-
-class AddTaskUseCase implements UseCase<bool, AddTaskParams> {
   @override
-  Future<bool> call(AddTaskParams params) async {
-    print(params.task.props);
-    if (await params.taskRepository.addTask(params.task)) {
-      print("added");
-      return true;
-    }
-
-    return false;
+  Future<bool> call({TaskEntity? params}) async {
+    return _taskRepository.addTask(params!);
   }
 }

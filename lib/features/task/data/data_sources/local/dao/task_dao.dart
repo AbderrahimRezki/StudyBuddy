@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:study_buddy/core/database/database_helper.dart';
 import 'package:study_buddy/features/task/data/models/task_model.dart';
@@ -10,7 +11,7 @@ class TaskDao {
     try {
       await database.insert(tableName, task.toJson());
     } catch (e) {
-      print("$e");
+      debugPrint("$e");
       return false;
     }
 
@@ -24,8 +25,7 @@ class TaskDao {
       await database
           .delete(tableName, where: "taskId = ?", whereArgs: [task.taskId]);
     } catch (e) {
-      print("$e");
-
+      debugPrint("$e");
       return false;
     }
 
@@ -38,12 +38,11 @@ class TaskDao {
     try {
       var result = await database.rawQuery("SELECT * FROM Task");
       result.map((task) => TaskModel.fromJson(task));
+      debugPrint(result.toString());
 
-      print(result);
       return result as List<TaskModel>;
     } catch (e) {
-      print("$e");
-
+      debugPrint("$e");
       return [];
     }
   }

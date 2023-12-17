@@ -3,12 +3,12 @@ import 'package:study_buddy/features/community/domain/repositories/post_reposito
 import 'package:study_buddy/features/community/domain/entities/post_entity.dart';
 
 class GetAllPostsUseCase implements UseCase<List<PostEntity>, void> {
-  final IPostRepository _postRepository;
+  final PostRepository _postRepository;
 
   GetAllPostsUseCase(this._postRepository);
 
   @override
-  Future<List<PostEntity>> call(void params) {
+  Future<List<PostEntity>> call({params}) {
     return _postRepository.getAllPosts();
   }
 }

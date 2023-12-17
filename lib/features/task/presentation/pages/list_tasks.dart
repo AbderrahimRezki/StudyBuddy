@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:study_buddy/config/theme/theme.dart';
-import 'package:study_buddy/features/task/data/repositories/tasks_repository.dart';
+import 'package:study_buddy/dependency_injection.dart';
 import 'package:study_buddy/features/task/domain/usecases/get_all_tasks.dart';
 import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
@@ -16,27 +16,6 @@ class TasksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final List<Map<String, dynamic>> taskData = [
-    //   {
-    //     'title': 'Read Chapter 4.1',
-    //     'category': 'History',
-    //     'timeLeft': '2h',
-    //     'priorityLevel': 2,
-    //   },
-    //   {
-    //     'title': 'Complete Algebra Exercise',
-    //     'category': 'Math',
-    //     'timeLeft': '4h',
-    //     'priorityLevel': 1,
-    //   },
-    //   {
-    //     'title': 'Write Essay on Renaissance',
-    //     'category': 'Literature',
-    //     'timeLeft': '1d',
-    //     'priorityLevel': 0,
-    //   },
-    // ];
-
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
@@ -45,7 +24,7 @@ class TasksPage extends StatelessWidget {
             const CurrentDateWidget(),
             Expanded(
               child: FutureBuilder(
-                future: GetAllTasksUseCase()(TaskRepositoryImpl()),
+                future: locator<GetAllTasksUseCase>()(),
                 builder: (context, snapshot) {
                   return snapshot.hasData
                       ? ListView.builder(

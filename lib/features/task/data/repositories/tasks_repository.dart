@@ -9,20 +9,13 @@ class TaskRepositoryImpl implements TaskRepository {
   @override
   Future<bool> addTask(TaskEntity task) async {
     TaskModel taskModel = TaskModel.fromEntity(task);
-
-    if (await TaskDao.addTask(taskModel)) {
-      print("added");
-      return true;
-    }
-    print(taskModel.taskTitle);
-    print("failed");
-    return false;
+    return TaskDao.addTask(taskModel);
   }
 
   @override
   Future<bool> removeTask(TaskEntity task) async {
     TaskModel taskModel = TaskModel.fromEntity(task);
-    return await TaskDao.deleteTask(taskModel);
+    return TaskDao.deleteTask(taskModel);
   }
 
   @override

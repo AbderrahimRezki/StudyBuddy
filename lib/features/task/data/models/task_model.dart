@@ -41,7 +41,7 @@ class TaskModel extends TaskEntity {
       "taskIsDone": taskIsDone == true ? 1 : 0
     };
 
-    // if (taskId != null) map["taskId"] = taskId;
+    if (taskId != null) map["taskId"] = taskId;
 
     return map;
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:study_buddy/core/database/database_helper.dart';
 import 'package:study_buddy/features/task/data/models/category_model.dart';
@@ -14,11 +15,9 @@ class TaskCategoryDao {
     try {
       await database.insert(tableName, taskCategoryRelation.toJson());
     } catch (e) {
-      print("$e");
-
+      debugPrint("$e");
       return false;
     }
-
     return true;
   }
 
@@ -29,8 +28,7 @@ class TaskCategoryDao {
       await database
           .delete(tableName, where: "id = ?", whereArgs: [relation.id]);
     } catch (e) {
-      print("$e");
-
+      debugPrint("$e");
       return false;
     }
     return true;
@@ -48,8 +46,7 @@ class TaskCategoryDao {
       result.map((category) => CategoryModel.fromJson(category));
       return result as List<CategoryModel>;
     } catch (e) {
-      print("$e");
-
+      debugPrint("$e");
       return [];
     }
   }

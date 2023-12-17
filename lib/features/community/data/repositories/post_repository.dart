@@ -2,7 +2,7 @@ import 'package:study_buddy/features/community/domain/entities/post_entity.dart'
 import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/community/domain/repositories/post_repository.dart';
 
-class PostRepository implements IPostRepository {
+class PostRepositoryImpl implements PostRepository {
   @override
   Future<List<PostEntity>> getAllPosts() async {
     await Future.delayed(const Duration(seconds: 1));
