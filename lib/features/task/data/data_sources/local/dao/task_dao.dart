@@ -4,43 +4,61 @@ import 'package:study_buddy/core/database/database_helper.dart';
 import 'package:study_buddy/features/task/data/models/task_model.dart';
 
 class TaskDao {
-  static String tableName = "Task";
-  static Future<bool> addTask(TaskModel task) async {
-    Database database = await DatabaseHelper.getDatabase();
+  final String _tableName = "Task";
+  Database? _database;
 
+  TaskDao() {
+    DatabaseHelper.getDatabase().then((database) {
+      _database = database;
+    });
+  }
+
+  Future<bool> addTask(TaskModel task) async {
     try {
-      await database.insert(tableName, task.toJson());
+      await _database!.insert(_tableName, task.toJson());
+      return true;
     } catch (e) {
       debugPrint("$e");
       return false;
     }
-
-    return true;
   }
 
-  static Future<bool> deleteTask(TaskModel task) async {
-    Database database = await DatabaseHelper.getDatabase();
-
+  Future<bool> deleteTask(TaskModel task) async {
     try {
-      await database
-          .delete(tableName, where: "taskId = ?", whereArgs: [task.taskId]);
+      await _database!
+          .delete(_tableName, where: "taskId = ?", whereArgs: [task.taskId]);
+      return true;
     } catch (e) {
       debugPrint("$e");
       return false;
     }
-
-    return true;
   }
 
-  static Future<List<TaskModel>> getAllTasks() async {
-    Database database = await DatabaseHelper.getDatabase();
-
+  Future getAllTasks() async {
     try {
-      var result = await database.rawQuery("SELECT * FROM Task");
-      result.map((task) => TaskModel.fromJson(task));
-      debugPrint(result.toString());
+      var result = await _database!.rawQuery("SELECT * FROM Task");
+      debugPrint("TasksDao: $result");
+      return result;
+    } catch (e) {
+      debugPrint("$e");
+      return [];
+    }
+  }
 
-      return result as List<TaskModel>;
+  Future<bool> updateTask(TaskModel taskModel) async {
+    try {
+      await _database!.update(_tableName, taskModel.toJson());
+      return true;
+    } catch (e) {
+      debugPrint("$e");
+      return false;
+    }
+  }
+
+  Future getPendingTasks() async {
+    try {
+      return await _database!
+          .rawQuery("SELECT * FROM Task WHERE taskIsDone = 0");
     } catch (e) {
       debugPrint("$e");
       return [];

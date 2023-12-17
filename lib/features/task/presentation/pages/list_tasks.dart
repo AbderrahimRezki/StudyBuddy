@@ -1,13 +1,14 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/config/theme/theme.dart';
-import 'package:study_buddy/dependency_injection.dart';
-import 'package:study_buddy/features/task/domain/usecases/get_all_tasks.dart';
+import 'package:study_buddy/features/task/presentation/widgets/dismissible_task_card.dart';
+import 'package:study_buddy/features/task/presentation/widgets/task_card.dart';
+import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
+import 'package:study_buddy/features/task/presentation/bloc/task_state.dart';
 import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
-import 'package:study_buddy/features/skeleton/presentation/widgets/task_card.dart';
 import 'package:study_buddy/features/task/presentation/pages/add_task.dart';
 
 class TasksPage extends StatelessWidget {
@@ -23,23 +24,22 @@ class TasksPage extends StatelessWidget {
           children: [
             const CurrentDateWidget(),
             Expanded(
-              child: FutureBuilder(
-                future: locator<GetAllTasksUseCase>()(),
-                builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            final task = snapshot.data![index];
-                            return TaskCard(
-                              title: task.taskTitle ?? "My Task",
-                              category: "task",
-                              timeLeft: "1h",
-                              priorityLevel: 0,
-                            );
-                          },
+              child: BlocBuilder<TasksCubit, TasksState>(
+                builder: (context, state) {
+                  return (state is TaskStateLoading)
+                      ? const Center(
+                          child: CircularProgressIndicator(),
                         )
-                      : const CircularProgressIndicator();
+                      : ListView.builder(
+                          itemCount: state.tasks!.length + 1,
+                          itemBuilder: (context, index) {
+                            return (index < state.tasks!.length - 1)
+                                ? DismissibleTaskCard(
+                                    taskCard:
+                                        TaskCard(task: state.tasks![index]))
+                                : const SizedBox(height: 100);
+                          },
+                        );
                 },
               ),
             ),

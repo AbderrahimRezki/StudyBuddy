@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 
 class TaskCard extends StatelessWidget {
-  final String title;
-  final String category;
-  final String timeLeft;
-  final int priorityLevel;
-
-  const TaskCard({
-    super.key,
-    required this.title,
-    required this.category,
-    required this.timeLeft,
-    required this.priorityLevel,
-  });
+  final TaskEntity task;
+  const TaskCard({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +11,7 @@ class TaskCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: (task.taskIsDone ?? false) ? Colors.green : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -35,7 +26,7 @@ class TaskCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            task.taskTitle == "" ? "Untitled" : task.taskTitle.toString(),
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -50,7 +41,8 @@ class TaskCard extends StatelessWidget {
                   width: 10,
                   height: 10,
                   decoration: BoxDecoration(
-                    color: i < priorityLevel ? Colors.red : Colors.grey,
+                    color:
+                        i < (task.taskPriority ?? 0) ? Colors.red : Colors.grey,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -61,7 +53,7 @@ class TaskCard extends StatelessWidget {
             children: [
               _buildCategoryTag(context, 'Task'),
               const SizedBox(width: 8),
-              _buildCategoryTag(context, category),
+              _buildCategoryTag(context, "Math"),
               const Spacer(),
               Container(
                 padding:
@@ -70,9 +62,9 @@ class TaskCard extends StatelessWidget {
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text(
-                  timeLeft,
-                  style: const TextStyle(
+                child: const Text(
+                  "\u221E",
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

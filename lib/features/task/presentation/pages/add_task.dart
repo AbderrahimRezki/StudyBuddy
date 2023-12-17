@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/dependency_injection.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
-import 'package:study_buddy/features/task/domain/usecases/add_task.dart';
+import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
+import 'package:study_buddy/features/task/presentation/bloc/task_state.dart';
 
 class AddTaskScreenState extends StatefulWidget {
   static const pageRoute = "/add";
@@ -174,29 +175,33 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            var title = AddTaskScreenState._titleController.text;
-            var description = AddTaskScreenState._descriptionController.text;
+        BlocBuilder<TasksCubit, TasksState>(
+          builder: (context, state) {
+            return ElevatedButton(
+              onPressed: () {
+                var title = AddTaskScreenState._titleController.text;
+                var description =
+                    AddTaskScreenState._descriptionController.text;
 
-            var task = TaskEntity(
-                taskId: 0,
-                userId: 0,
-                taskTitle: title,
-                taskDescription: description);
-
-            locator<AddTaskUseCase>()(params: task).then((value) {
-              Navigator.of(context).pop();
-            });
+                var task = TaskEntity(
+                    taskId: null,
+                    userId: null,
+                    taskTitle: title,
+                    taskDescription: description);
+                context.read<TasksCubit>().addTask(task);
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                backgroundColor: const Color(0xFF32CD32),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              ),
+              child: const Text('Save'),
+            );
           },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-            backgroundColor: const Color(0xFF32CD32),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
-          child: const Text('Save'),
         ),
         ElevatedButton(
           onPressed: () {

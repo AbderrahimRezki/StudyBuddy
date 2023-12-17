@@ -32,6 +32,24 @@ class TaskModel extends TaskEntity {
         taskIsDone: map["isDone"]);
   }
 
+  TaskModel copyWith(
+      {int? taskId,
+      int? userId,
+      String? taskTitle,
+      String? taskDescription,
+      int? taskPriority,
+      int? taskDueDate,
+      bool? taskIsDone}) {
+    return TaskModel(
+        taskId: taskId ?? this.taskId,
+        userId: userId ?? this.userId,
+        taskTitle: taskTitle ?? this.taskTitle,
+        taskDescription: taskDescription ?? this.taskDescription,
+        taskPriority: taskPriority ?? this.taskPriority,
+        taskDueDate: taskDueDate ?? this.taskDueDate,
+        taskIsDone: taskIsDone ?? this.taskIsDone);
+  }
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       "taskTitle": taskTitle ?? "Title",
