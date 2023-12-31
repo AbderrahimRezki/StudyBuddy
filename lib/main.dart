@@ -44,7 +44,7 @@ class _MainAppState extends State<MainApp> {
                   body: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      state.pages[context.watch<PageCubit>().state.route]!,
+                      state.currentPage,
                       if (state.pageHasBars()) const MyNavigationBar()
                     ],
                   )));

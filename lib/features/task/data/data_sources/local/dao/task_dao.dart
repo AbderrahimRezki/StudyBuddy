@@ -15,7 +15,8 @@ class TaskDao {
 
   Future<bool> addTask(TaskModel task) async {
     try {
-      await _database!.insert(_tableName, task.toJson());
+      await _database!.insert(_tableName, task.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
       return true;
     } catch (e) {
       debugPrint("$e");

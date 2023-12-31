@@ -1,7 +1,7 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/config/theme/theme.dart';
+import 'package:study_buddy/features/skeleton/presentation/widgets/current_date.dart';
 import 'package:study_buddy/features/task/presentation/widgets/dismissible_task_card.dart';
 import 'package:study_buddy/features/task/presentation/widgets/task_card.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
@@ -33,12 +33,21 @@ class TasksPage extends StatelessWidget {
                           child: Text("Click the + button to add tasks"),
                         )
                       : ListView.builder(
-                          itemCount: s.tasks!.length + 1,
+                          itemCount: s.tasks!.length,
                           itemBuilder: (context, index) {
+                            final task = s.tasks![index];
                             return (index < s.tasks!.length)
-                                ? DismissibleTaskCard(
-                                    taskCard:
-                                        TaskCard(task: state.tasks![index]))
+                                ? GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddTaskScreenState(
+                                                  task: task,
+                                                ))),
+                                    child: DismissibleTaskCard(
+                                        taskCard: TaskCard(task: task)),
+                                  )
                                 : const SizedBox(height: 100);
                           },
                         );
@@ -67,28 +76,6 @@ class TasksPage extends StatelessWidget {
           },
         )
       ],
-    );
-  }
-}
-
-class CurrentDateWidget extends StatelessWidget {
-  const CurrentDateWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final String currentDate =
-        DateFormat('EEEE, d MMMM').format(DateTime.now());
-
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      alignment: Alignment.center,
-      child: Text(
-        currentDate,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:study_buddy/features/task/data/repositories/tasks_repository.dar
 import 'package:study_buddy/features/task/domain/repositories/tasks_repository.dart';
 import 'package:study_buddy/features/task/domain/usecases/add_task.dart';
 import 'package:study_buddy/features/task/domain/usecases/delete_task.dart';
+import 'package:study_buddy/features/task/domain/usecases/edit_task.dart';
 import 'package:study_buddy/features/task/domain/usecases/get_all_tasks.dart';
 import 'package:study_buddy/features/task/domain/usecases/get_pending_tasks.dart';
 import 'package:study_buddy/features/task/domain/usecases/mark_task_as_done.dart';
@@ -30,6 +31,9 @@ void initializeDependencies() async {
   AddTaskUseCase addTaskUseCase = AddTaskUseCase(locator());
   locator.registerSingleton(addTaskUseCase);
 
+  EditTaskUseCase editTaskUseCase = EditTaskUseCase(locator());
+  locator.registerSingleton(editTaskUseCase);
+
   DeleteTaskUseCase deleteTaskUseCase = DeleteTaskUseCase(locator());
   locator.registerSingleton(deleteTaskUseCase);
 
@@ -51,6 +55,6 @@ void initializeDependencies() async {
   // Cubits
   locator.registerSingleton(PageCubit());
   locator.registerSingleton(PomodoroCubit());
-  locator.registerSingleton<TasksCubit>(
-      TasksCubit(locator(), locator(), locator(), locator(), locator()));
+  locator.registerSingleton<TasksCubit>(TasksCubit(
+      locator(), locator(), locator(), locator(), locator(), locator()));
 }

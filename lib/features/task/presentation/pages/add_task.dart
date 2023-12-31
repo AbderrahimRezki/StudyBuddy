@@ -10,7 +10,8 @@ class AddTaskScreenState extends StatefulWidget {
   static final _titleController = TextEditingController();
   static final _descriptionController = TextEditingController();
 
-  const AddTaskScreenState({super.key});
+  final TaskEntity? task;
+  const AddTaskScreenState({super.key, this.task});
 
   @override
   State<AddTaskScreenState> createState() => _AddTaskScreenState();
@@ -56,11 +57,11 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
             child: Form(
               child: ListView(
                 children: <Widget>[
-                  _buildTaskCard(),
+                  _buildTaskCard(task: widget.task),
                   const SizedBox(height: 20),
                   _buildCategorySection(),
                   const SizedBox(height: 20),
-                  _buildActionButtons(),
+                  _buildActionButtons(task: widget.task),
                 ],
               ),
             ),
@@ -70,7 +71,12 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
     );
   }
 
-  Widget _buildTaskCard() {
+  Widget _buildTaskCard({TaskEntity? task}) {
+    AddTaskScreenState._titleController.text =
+        (task?.taskTitle != null) ? task!.taskTitle! : "";
+    AddTaskScreenState._descriptionController.text =
+        (task?.taskDescription != null) ? task!.taskDescription! : "";
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
@@ -86,10 +92,9 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
                 border: InputBorder.none,
                 hintText: 'Title',
                 hintStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF333333),
-                  fontSize: 18,
-                ),
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF333333),
+                    fontSize: 18),
               ),
               style: const TextStyle(
                 fontSize: 18,
@@ -171,7 +176,7 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons({TaskEntity? task}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -183,15 +188,21 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
                 var description =
                     AddTaskScreenState._descriptionController.text;
 
-                var task = TaskEntity(
-                    taskId: null,
-                    userId: null,
+                final task0 = TaskEntity(
+                    taskId: task?.taskId,
+                    userId: task?.userId,
                     taskTitle: title,
                     taskDescription: description);
-                context.read<TasksCubit>().addTask(task);
+
+                if (task != null) {
+                  context.read<TasksCubit>().editTask(task0);
+                } else {
+                  context.read<TasksCubit>().addTask(task0);
+                }
                 AddTaskScreenState._titleController.text = "";
                 AddTaskScreenState._descriptionController.text = "";
 
+                context.read<TasksCubit>().getAllTasks();
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(

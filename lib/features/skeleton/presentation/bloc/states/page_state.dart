@@ -2,42 +2,35 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:study_buddy/core/constants/dummy.dart';
 import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
-import 'package:study_buddy/features/community/presentation/pages/community.dart';
-import 'package:study_buddy/features/pomodoro/presentation/pages/pomodoro_timer.dart';
 import 'package:study_buddy/features/landing_page/presentation/pages/welcome.dart';
 import 'package:study_buddy/features/landing_page/presentation/pages/login.dart';
-import 'package:study_buddy/features/task/presentation/pages/list_tasks.dart';
 
 class PageState extends Equatable {
   final UserEntity loggedInUser;
-  final Map<String, Widget> pages;
+  final Widget currentPage;
   final String route;
+  final dynamic params;
 
   const PageState(
       {required this.loggedInUser,
-      required this.pages,
-      this.route = StudyBuddyPage.pageRoute});
+      required this.currentPage,
+      required this.route,
+      this.params});
 
   bool pageHasBars() {
     const noBars = [StudyBuddyPage.pageRoute, NicknamePage.pageRoute];
-
     return !noBars.contains(route);
   }
 
   @override
-  List<Object?> get props => [loggedInUser, pages, route];
+  List<Object?> get props => [loggedInUser, currentPage];
 }
 
 class PageInitialState extends PageState {
-  PageInitialState()
+  const PageInitialState()
       : super(
-            loggedInUser: user,
-            pages: {
-              StudyBuddyPage.pageRoute: const StudyBuddyPage(),
-              NicknamePage.pageRoute: const NicknamePage(),
-              TasksPage.pageRoute: const TasksPage(user: user),
-              Pomodoro.pageRoute: const Pomodoro(),
-              Community.pageRoute: const Community()
-            },
-            route: StudyBuddyPage.pageRoute);
+          loggedInUser: user,
+          route: StudyBuddyPage.pageRoute,
+          currentPage: const StudyBuddyPage(),
+        );
 }
