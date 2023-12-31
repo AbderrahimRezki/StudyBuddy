@@ -15,7 +15,8 @@ Future<void> main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => locator<PageCubit>()),
-      BlocProvider(create: (context) => locator<TasksCubit>()),
+      BlocProvider(
+          create: (context) => locator<TasksCubit>()..getPendingTasks()),
       BlocProvider(create: (context) => locator<PomodoroCubit>())
     ],
     child: const MainApp(),
@@ -39,12 +40,12 @@ class _MainAppState extends State<MainApp> {
           return SafeArea(
               child: Scaffold(
                   backgroundColor: MyColorScheme.backgroundColor,
-                  appBar: (state.index > 1) ? const TopBar() : null,
+                  appBar: (state.pageHasBars()) ? const TopBar() : null,
                   body: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      state.pages[context.watch<PageCubit>().state.index],
-                      if (state.index > 1) const MyNavigationBar()
+                      state.pages[context.watch<PageCubit>().state.route]!,
+                      if (state.pageHasBars()) const MyNavigationBar()
                     ],
                   )));
         }));

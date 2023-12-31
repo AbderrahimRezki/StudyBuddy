@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 
 // ignore: must_be_immutable
@@ -53,13 +54,15 @@ class TaskModel extends TaskEntity {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       "taskTitle": taskTitle ?? "Title",
-      "taskDescription": taskDescription ?? "Desc",
+      "taskDescription": taskDescription ?? "",
       "taskPriority": taskPriority,
       "taskDueDate": taskDueDate,
       "taskIsDone": taskIsDone == true ? 1 : 0
     };
 
     if (taskId != null) map["taskId"] = taskId;
+
+    debugPrint("$map");
 
     return map;
   }

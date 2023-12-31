@@ -47,7 +47,8 @@ class TaskDao {
 
   Future<bool> updateTask(TaskModel taskModel) async {
     try {
-      await _database!.update(_tableName, taskModel.toJson());
+      await _database!.update(_tableName, taskModel.toJson(),
+          where: "taskId = ?", whereArgs: [taskModel.taskId]);
       return true;
     } catch (e) {
       debugPrint("$e");

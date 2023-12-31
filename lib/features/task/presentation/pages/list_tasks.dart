@@ -12,6 +12,7 @@ import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_stat
 import 'package:study_buddy/features/task/presentation/pages/add_task.dart';
 
 class TasksPage extends StatelessWidget {
+  static const pageRoute = "/task";
   final UserEntity user;
   const TasksPage({super.key, required this.user});
 
@@ -26,14 +27,15 @@ class TasksPage extends StatelessWidget {
             Expanded(
               child: BlocBuilder<TasksCubit, TasksState>(
                 builder: (context, state) {
-                  return (state is TaskStateLoading)
+                  final s = context.watch<TasksCubit>().state;
+                  return (s.tasks == null || s.tasks!.isEmpty)
                       ? const Center(
-                          child: CircularProgressIndicator(),
+                          child: Text("Click the + button to add tasks"),
                         )
                       : ListView.builder(
-                          itemCount: state.tasks!.length + 1,
+                          itemCount: s.tasks!.length + 1,
                           itemBuilder: (context, index) {
-                            return (index < state.tasks!.length - 1)
+                            return (index < s.tasks!.length)
                                 ? DismissibleTaskCard(
                                     taskCard:
                                         TaskCard(task: state.tasks![index]))

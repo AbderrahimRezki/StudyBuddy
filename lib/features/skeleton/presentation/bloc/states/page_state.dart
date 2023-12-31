@@ -10,26 +10,34 @@ import 'package:study_buddy/features/task/presentation/pages/list_tasks.dart';
 
 class PageState extends Equatable {
   final UserEntity loggedInUser;
-  final List<Widget> pages;
-  final int index;
+  final Map<String, Widget> pages;
+  final String route;
 
   const PageState(
-      {required this.loggedInUser, required this.pages, this.index = 0});
+      {required this.loggedInUser,
+      required this.pages,
+      this.route = StudyBuddyPage.pageRoute});
+
+  bool pageHasBars() {
+    const noBars = [StudyBuddyPage.pageRoute, NicknamePage.pageRoute];
+
+    return !noBars.contains(route);
+  }
 
   @override
-  List<Object?> get props => [loggedInUser, pages, index];
+  List<Object?> get props => [loggedInUser, pages, route];
 }
 
 class PageInitialState extends PageState {
   PageInitialState()
       : super(
             loggedInUser: user,
-            pages: [
-              const StudyBuddyPage(),
-              const NicknamePage(),
-              const TasksPage(user: user),
-              const Pomodoro(),
-              const Community()
-            ],
-            index: 0);
+            pages: {
+              StudyBuddyPage.pageRoute: const StudyBuddyPage(),
+              NicknamePage.pageRoute: const NicknamePage(),
+              TasksPage.pageRoute: const TasksPage(user: user),
+              Pomodoro.pageRoute: const Pomodoro(),
+              Community.pageRoute: const Community()
+            },
+            route: StudyBuddyPage.pageRoute);
 }

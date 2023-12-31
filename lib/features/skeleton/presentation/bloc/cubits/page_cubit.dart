@@ -4,8 +4,8 @@ import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_stat
 class PageCubit extends Cubit<PageState> {
   PageCubit() : super(PageInitialState());
 
-  void changePage(int index) {
+  void changePage(String route) {
     emit(PageState(
-        pages: state.pages, index: index, loggedInUser: state.loggedInUser));
+        pages: state.pages, route: route, loggedInUser: state.loggedInUser));
   }
 }

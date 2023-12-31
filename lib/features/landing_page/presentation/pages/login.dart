@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
+import 'package:study_buddy/features/task/presentation/pages/list_tasks.dart';
 
 class NicknamePage extends StatefulWidget {
+  static const pageRoute = "/login";
   const NicknamePage({super.key});
 
   @override
@@ -93,7 +95,9 @@ class _NicknamePageState extends State<NicknamePage> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                context.read<PageCubit>().changePage(2);
+                                context
+                                    .read<PageCubit>()
+                                    .changePage(TasksPage.pageRoute);
                               }
                             },
                             style: ElevatedButton.styleFrom(

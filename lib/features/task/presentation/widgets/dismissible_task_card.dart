@@ -45,7 +45,9 @@ class DismissibleTaskCard extends StatelessWidget {
             if (direction == DismissDirection.startToEnd) {
               context.read<TasksCubit>().markTaskAsDone(taskCard.task);
             }
-            if (direction == DismissDirection.endToStart) {}
+            if (direction == DismissDirection.endToStart) {
+              context.read<TasksCubit>().deleteTask(taskCard.task);
+            }
           },
         );
       },

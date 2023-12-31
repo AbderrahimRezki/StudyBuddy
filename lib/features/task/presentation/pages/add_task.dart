@@ -6,7 +6,7 @@ import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_state.dart';
 
 class AddTaskScreenState extends StatefulWidget {
-  static const pageRoute = "/add";
+  static const pageRoute = "/task/add";
   static final _titleController = TextEditingController();
   static final _descriptionController = TextEditingController();
 
@@ -189,6 +189,9 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
                     taskTitle: title,
                     taskDescription: description);
                 context.read<TasksCubit>().addTask(task);
+                AddTaskScreenState._titleController.text = "";
+                AddTaskScreenState._descriptionController.text = "";
+
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(

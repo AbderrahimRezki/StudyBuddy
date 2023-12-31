@@ -11,7 +11,8 @@ class MarkTaskAsDoneUseCase extends UseCase<bool, TaskEntity> {
   Future<bool> call({TaskEntity? params}) async {
     TaskModel taskModel =
         TaskModel.fromEntity(params!).copyWith(taskIsDone: true);
-    _taskRepository.updateTask(taskModel);
+
+    await _taskRepository.updateTask(taskModel);
     return true;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_buddy/config/theme/theme.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 
 class TaskCard extends StatelessWidget {
@@ -32,6 +33,15 @@ class TaskCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          if (task.taskDescription != "")
+            Text(
+              task.taskDescription.toString(),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: MyColorScheme.lightGray,
+              ),
+            ),
           const SizedBox(height: 8),
           Row(
             children: [

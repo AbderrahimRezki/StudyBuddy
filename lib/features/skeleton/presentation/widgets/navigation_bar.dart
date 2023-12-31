@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:study_buddy/config/theme/theme.dart';
+import 'package:study_buddy/features/community/presentation/pages/community.dart';
+import 'package:study_buddy/features/pomodoro/presentation/pages/pomodoro_timer.dart';
 import 'package:study_buddy/features/skeleton/domain/entities/navigation_item_entity.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
+import 'package:study_buddy/features/task/presentation/pages/list_tasks.dart';
 
 class MyNavigationBar extends StatefulWidget {
   const MyNavigationBar({super.key});
@@ -17,15 +20,17 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   int selectedIndex = 0;
   final List<NavigationBarItemEntity> navigationBarItems = [
     const NavigationBarItemEntity(
-        iconPath: "assets/icons/tasks.svg", itemTitle: "Tasks", route: "/add"),
+        iconPath: "assets/icons/tasks.svg",
+        itemTitle: "Tasks",
+        route: TasksPage.pageRoute),
     const NavigationBarItemEntity(
         iconPath: "assets/icons/timer.svg",
         itemTitle: "Timer",
-        route: "/timer"),
+        route: Pomodoro.pageRoute),
     const NavigationBarItemEntity(
         iconPath: "assets/icons/people.svg",
         itemTitle: "People",
-        route: "/community")
+        route: Community.pageRoute)
   ];
 
   @override
@@ -49,11 +54,14 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                         index++)
                       GestureDetector(
                         onTap: () {
-                          context.read<PageCubit>().changePage(index + 2);
+                          context
+                              .read<PageCubit>()
+                              .changePage(navigationBarItems[index].route);
                         },
                         child: NavigationBarItem(
                             navigationBarItem: navigationBarItems[index],
-                            isSelected: index + 2 == state.index),
+                            isSelected:
+                                navigationBarItems[index].route == state.route),
                       )
                   ]),
             ),
