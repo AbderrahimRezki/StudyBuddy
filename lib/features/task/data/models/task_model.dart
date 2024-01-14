@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:study_buddy/features/task/domain/entities/category_entity.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 
 // ignore: must_be_immutable
@@ -10,7 +10,8 @@ class TaskModel extends TaskEntity {
       super.taskDescription,
       super.taskPriority = 0,
       super.taskDueDate,
-      super.taskIsDone});
+      super.taskIsDone,
+      super.taskCategories});
 
   factory TaskModel.fromEntity(TaskEntity task) {
     return TaskModel(
@@ -20,7 +21,8 @@ class TaskModel extends TaskEntity {
         taskDescription: task.taskDescription,
         taskPriority: task.taskPriority,
         taskDueDate: task.taskDueDate,
-        taskIsDone: task.taskIsDone);
+        taskIsDone: task.taskIsDone,
+        taskCategories: task.taskCategories);
   }
 
   factory TaskModel.fromJson(Map<String, dynamic> map) {
@@ -30,7 +32,8 @@ class TaskModel extends TaskEntity {
         taskDescription: map["taskDescription"] ?? "",
         taskPriority: map["taskPriority"] ?? 0,
         taskDueDate: map["dueDate"],
-        taskIsDone: map["isDone"]);
+        taskIsDone: map["isDone"],
+        taskCategories: map["taskCategories"]);
   }
 
   TaskModel copyWith(
@@ -40,7 +43,8 @@ class TaskModel extends TaskEntity {
       String? taskDescription,
       int? taskPriority,
       int? taskDueDate,
-      bool? taskIsDone}) {
+      bool? taskIsDone,
+      List<CategoryEntity>? taskCategories}) {
     return TaskModel(
         taskId: taskId ?? this.taskId,
         userId: userId ?? this.userId,
@@ -48,7 +52,8 @@ class TaskModel extends TaskEntity {
         taskDescription: taskDescription ?? this.taskDescription,
         taskPriority: taskPriority ?? this.taskPriority,
         taskDueDate: taskDueDate ?? this.taskDueDate,
-        taskIsDone: taskIsDone ?? this.taskIsDone);
+        taskIsDone: taskIsDone ?? this.taskIsDone,
+        taskCategories: taskCategories ?? this.taskCategories);
   }
 
   Map<String, dynamic> toJson() {
@@ -61,9 +66,6 @@ class TaskModel extends TaskEntity {
     };
 
     if (taskId != null) map["taskId"] = taskId;
-
-    debugPrint("$map");
-
     return map;
   }
 }

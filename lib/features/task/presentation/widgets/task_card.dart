@@ -61,9 +61,7 @@ class TaskCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              _buildCategoryTag(context, 'Task'),
-              const SizedBox(width: 8),
-              _buildCategoryTag(context, "Math"),
+              ..._buildCategories(context, task.taskCategories ?? []),
               const Spacer(),
               Container(
                 padding:
@@ -91,7 +89,7 @@ class TaskCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: MyColorScheme.primaryColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -102,5 +100,16 @@ class TaskCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildCategories(context, categories) {
+    List<Widget> categoryChips = [];
+
+    for (var category in categories) {
+      categoryChips.add(_buildCategoryTag(context, category.categoryName));
+      categoryChips.add(const SizedBox(width: 8));
+    }
+
+    return categoryChips;
   }
 }

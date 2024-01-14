@@ -9,6 +9,6 @@ class GetAllTasksUseCase implements UseCase<List<TaskEntity>, void> {
 
   @override
   Future<List<TaskEntity>> call({void params}) async {
-    return _taskRepository.getAllTasks();
+    return await _taskRepository.getAllTasks();
   }
 }

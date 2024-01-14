@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:study_buddy/core/database/database_helper.dart';
+import 'package:study_buddy/dependency_injection.dart';
+import 'package:study_buddy/features/task/data/data_sources/local/dao/task_category_dao.dart';
+import 'package:study_buddy/features/task/data/models/task_category_relation.dart';
 import 'package:study_buddy/features/task/data/models/task_model.dart';
+import 'package:study_buddy/features/task/domain/entities/category_entity.dart';
 
 class TaskDao {
   final String _tableName = "Task";
@@ -15,8 +19,15 @@ class TaskDao {
 
   Future<bool> addTask(TaskModel task) async {
     try {
-      await _database!.insert(_tableName, task.toJson(),
+      final taskId = await _database!.insert(_tableName, task.toJson(),
           conflictAlgorithm: ConflictAlgorithm.replace);
+
+      task.taskCategories ??= [];
+      for (CategoryEntity category in task.taskCategories!) {
+        final relation = TaskCategoryRelation(
+            taskId: taskId, categoryId: category.categoryId!);
+        await locator<TaskCategoryDao>().addTaskCategory(relation);
+      }
       return true;
     } catch (e) {
       debugPrint("$e");
@@ -38,7 +49,6 @@ class TaskDao {
   Future getAllTasks() async {
     try {
       var result = await _database!.rawQuery("SELECT * FROM Task");
-      debugPrint("TasksDao: $result");
       return result;
     } catch (e) {
       debugPrint("$e");

@@ -4,13 +4,18 @@ import 'package:study_buddy/core/database/database_helper.dart';
 import 'package:study_buddy/features/task/data/models/category_model.dart';
 
 class CategoryDao {
-  static String tableName = "Category";
+  final String tableName = "Category";
+  Database? _database;
 
-  static Future<bool> addCategory(CategoryModel category) async {
-    Database database = await DatabaseHelper.getDatabase();
+  CategoryDao() {
+    DatabaseHelper.getDatabase().then((database) {
+      _database = database;
+    });
+  }
 
+  Future addCategory(CategoryModel category) async {
     try {
-      await database.insert(tableName, category.toJson());
+      await _database?.insert(tableName, category.toJson());
     } catch (e) {
       debugPrint("$e");
       return false;
@@ -18,11 +23,9 @@ class CategoryDao {
     return true;
   }
 
-  static Future<bool> deleteCategory(CategoryModel category) async {
-    Database database = await DatabaseHelper.getDatabase();
-
+  Future deleteCategory(CategoryModel category) async {
     try {
-      await database.delete(tableName,
+      await _database?.delete(tableName,
           where: "categoryId = ?", whereArgs: [category.categoryId]);
     } catch (e) {
       debugPrint("$e");
@@ -31,14 +34,9 @@ class CategoryDao {
     return true;
   }
 
-  static Future<List<CategoryModel>> getAllCategories(
-      CategoryModel category) async {
-    Database database = await DatabaseHelper.getDatabase();
-
+  Future getAllCategories() async {
     try {
-      var result = await database.rawQuery("SELECT * FROM Category");
-      result.map((e) => CategoryModel.fromJson(e));
-      return result as List<CategoryModel>;
+      return await _database?.rawQuery("SELECT * FROM $tableName");
     } catch (e) {
       debugPrint("$e");
       return [];

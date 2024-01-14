@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:study_buddy/features/task/domain/entities/category_entity.dart';
 
 enum Priority {
   low(0),
@@ -18,6 +19,7 @@ class TaskEntity extends Equatable {
   final int? taskPriority;
   final int? taskDueDate;
   final bool? taskIsDone;
+  List<CategoryEntity>? taskCategories;
 
   TaskEntity(
       {this.taskId,
@@ -26,8 +28,18 @@ class TaskEntity extends Equatable {
       this.taskDescription,
       this.taskPriority = 0,
       this.taskDueDate,
-      this.taskIsDone});
+      this.taskIsDone,
+      this.taskCategories});
 
   @override
-  List<Object?> get props => [taskId];
+  List<Object?> get props => [
+        taskId,
+        userId,
+        taskTitle,
+        taskDescription,
+        taskPriority,
+        taskDueDate,
+        taskIsDone,
+        taskCategories
+      ];
 }

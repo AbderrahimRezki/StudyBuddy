@@ -27,28 +27,28 @@ class TasksPage extends StatelessWidget {
             Expanded(
               child: BlocBuilder<TasksCubit, TasksState>(
                 builder: (context, state) {
-                  final s = context.watch<TasksCubit>().state;
-                  return (s.tasks == null || s.tasks!.isEmpty)
+                  // final s = context.watch<TasksCubit>().state;
+                  return (state.tasks == null || state.tasks!.isEmpty)
                       ? const Center(
                           child: Text("Click the + button to add tasks"),
                         )
                       : ListView.builder(
-                          itemCount: s.tasks!.length,
+                          itemCount: state.tasks!.length + 1,
                           itemBuilder: (context, index) {
-                            final task = s.tasks![index];
-                            return (index < s.tasks!.length)
-                                ? GestureDetector(
+                            return (index == state.tasks!.length)
+                                ? const SizedBox(height: 150)
+                                : GestureDetector(
                                     onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 AddTaskScreenState(
-                                                  task: task,
+                                                  task: state.tasks![index],
                                                 ))),
                                     child: DismissibleTaskCard(
-                                        taskCard: TaskCard(task: task)),
-                                  )
-                                : const SizedBox(height: 100);
+                                        taskCard: TaskCard(
+                                            task: state.tasks![index])),
+                                  );
                           },
                         );
                 },

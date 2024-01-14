@@ -10,6 +10,6 @@ class EditTaskUseCase extends UseCase<bool, TaskEntity> {
   @override
   Future<bool> call({TaskEntity? params}) async {
     final taskModel = TaskModel.fromEntity(params!);
-    return _taskRepository.updateTask(taskModel);
+    return await _taskRepository.updateTask(taskModel);
   }
 }

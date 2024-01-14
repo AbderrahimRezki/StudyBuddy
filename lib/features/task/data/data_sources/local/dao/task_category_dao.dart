@@ -6,14 +6,18 @@ import 'package:study_buddy/features/task/data/models/task_category_relation.dar
 import 'package:study_buddy/features/task/data/models/task_model.dart';
 
 class TaskCategoryDao {
-  static String tableName = "TaskCategoryRelation";
+  final String tableName = "TaskCategoryRelation";
+  Database? database;
 
-  static Future<bool> addTaskCategory(
-      TaskCategoryRelation taskCategoryRelation) async {
-    Database database = await DatabaseHelper.getDatabase();
+  TaskCategoryDao() {
+    DatabaseHelper.getDatabase().then((db) {
+      database = db;
+    });
+  }
 
+  Future addTaskCategory(TaskCategoryRelation taskCategoryRelation) async {
     try {
-      await database.insert(tableName, taskCategoryRelation.toJson());
+      await database!.insert(tableName, taskCategoryRelation.toJson());
     } catch (e) {
       debugPrint("$e");
       return false;
@@ -21,12 +25,11 @@ class TaskCategoryDao {
     return true;
   }
 
-  static Future<bool> deleteTaskCategory(TaskCategoryRelation relation) async {
-    Database database = await DatabaseHelper.getDatabase();
-
+  Future deleteTaskCategory(TaskCategoryRelation relation) async {
     try {
-      await database
-          .delete(tableName, where: "id = ?", whereArgs: [relation.id]);
+      await database!.delete(tableName,
+          where: "taskId = ? AND categoryId = ?",
+          whereArgs: [relation.taskId, relation.categoryId]);
     } catch (e) {
       debugPrint("$e");
       return false;
@@ -34,17 +37,25 @@ class TaskCategoryDao {
     return true;
   }
 
-  static Future<List<CategoryModel>> getAllTaskCategories(
-      TaskModel task) async {
-    Database database = await DatabaseHelper.getDatabase();
-
+  Future deleteTaskCategories(int taskId) async {
     try {
-      var result = await database
-          .rawQuery("""SELECT * FROM category INNER JOIN task_category_relation 
-        ON category.categoryId = task_category_relation.categoryId 
+      await database!
+          .delete(tableName, where: "taskId = ?", whereArgs: [taskId]);
+    } catch (e) {
+      debugPrint("$e");
+      return false;
+    }
+    return true;
+  }
+
+  Future getAllTaskCategories(TaskModel task) async {
+    try {
+      var result = await database!
+          .rawQuery("""SELECT * FROM category INNER JOIN $tableName 
+        ON category.categoryId = $tableName.categoryId 
         WHERE taskId = ? """, [task.taskId]);
       result.map((category) => CategoryModel.fromJson(category));
-      return result as List<CategoryModel>;
+      return result;
     } catch (e) {
       debugPrint("$e");
       return [];

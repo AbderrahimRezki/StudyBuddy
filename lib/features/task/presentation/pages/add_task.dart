@@ -1,43 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/top_bar.dart';
+import 'package:study_buddy/features/task/domain/entities/category_entity.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
-import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
-import 'package:study_buddy/features/task/presentation/bloc/task_state.dart';
+import 'package:study_buddy/features/task/presentation/bloc/categories_cubit.dart';
+import 'package:study_buddy/features/task/presentation/bloc/categories_state.dart';
+import 'package:study_buddy/features/task/presentation/widgets/task_form.dart';
+import 'package:study_buddy/features/task/presentation/widgets/task_form_controllers.dart';
 
 class AddTaskScreenState extends StatefulWidget {
   static const pageRoute = "/task/add";
-  static final _titleController = TextEditingController();
-  static final _descriptionController = TextEditingController();
 
   final TaskEntity? task;
-  const AddTaskScreenState({super.key, this.task});
+  const AddTaskScreenState({Key? key, this.task}) : super(key: key);
 
   @override
   State<AddTaskScreenState> createState() => _AddTaskScreenState();
 }
 
 class _AddTaskScreenState extends State<AddTaskScreenState> {
-  List<String> categories = [
-    'Math',
-    'Physique',
-    'His/Geo',
-    'Science',
-    'Philosophy',
-    'Technology',
-    'Islamic',
-    'Design',
-    'Sport',
-    'Others'
-  ];
-  Map<String, bool> selectedCategories = {};
+  Map<CategoryEntity, bool>? selectedCategories;
 
   @override
   void initState() {
+    selectedCategories = {
+      for (var k in widget.task?.taskCategories ?? []) k: true
+    };
+    // selectedCategories = mapFromList(widget.task?.taskCategories ?? []);
+    TaskFormControllers.titleController.text =
+        (widget.task?.taskTitle != null) ? widget.task!.taskTitle! : "";
+    TaskFormControllers.descriptionController.text =
+        (widget.task?.taskDescription != null)
+            ? widget.task!.taskDescription!
+            : "";
     super.initState();
-    for (var category in categories) {
-      selectedCategories[category] = false;
-    }
   }
 
   @override
@@ -54,183 +50,18 @@ class _AddTaskScreenState extends State<AddTaskScreenState> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  _buildTaskCard(task: widget.task),
-                  const SizedBox(height: 20),
-                  _buildCategorySection(),
-                  const SizedBox(height: 20),
-                  _buildActionButtons(task: widget.task),
-                ],
-              ),
+            child: BlocBuilder<CategoryCubit, CategoryState>(
+              builder: (context, state) {
+                return TaskForm(
+                  task: widget.task,
+                  categories: state.categories ?? [],
+                  selectedCategories: selectedCategories ?? {},
+                );
+              },
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildTaskCard({TaskEntity? task}) {
-    AddTaskScreenState._titleController.text =
-        (task?.taskTitle != null) ? task!.taskTitle! : "";
-    AddTaskScreenState._descriptionController.text =
-        (task?.taskDescription != null) ? task!.taskDescription! : "";
-
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              controller: AddTaskScreenState._titleController,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Title',
-                hintStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF333333),
-                    fontSize: 18),
-              ),
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-              onChanged: (value) {
-                AddTaskScreenState._titleController.text = value;
-              },
-              onSaved: (value) {},
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: AddTaskScreenState._descriptionController,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Today I will do ... ',
-              ),
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-              maxLines: 3,
-              onChanged: (value) {
-                AddTaskScreenState._descriptionController.text = value;
-              },
-              onSaved: (value) {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCategorySection() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Wrap(
-        spacing: 8.0,
-        runSpacing: 4.0,
-        children:
-            categories.map((category) => _buildCategoryChip(category)).toList()
-              ..add(_buildAddCategoryButton()),
-      ),
-    );
-  }
-
-  Widget _buildCategoryChip(String category) {
-    final bool isSelected = selectedCategories[category]!;
-    return ChoiceChip(
-      label: Text(category),
-      selected: isSelected,
-      onSelected: (bool selected) {
-        setState(() {
-          selectedCategories[category] = selected;
-        });
-      },
-      selectedColor: const Color(0xFF32CD32),
-      backgroundColor: const Color(0x81E8E8E8),
-      labelStyle:
-          TextStyle(color: isSelected ? Colors.white : const Color(0xFF333333)),
-    );
-  }
-
-  Widget _buildAddCategoryButton() {
-    return IconButton(
-      icon: const Icon(Icons.add_circle, color: Color(0xFF006CDA)),
-      onPressed: () {},
-    );
-  }
-
-  Widget _buildActionButtons({TaskEntity? task}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        BlocBuilder<TasksCubit, TasksState>(
-          builder: (context, state) {
-            return ElevatedButton(
-              onPressed: () {
-                var title = AddTaskScreenState._titleController.text;
-                var description =
-                    AddTaskScreenState._descriptionController.text;
-
-                final task0 = TaskEntity(
-                    taskId: task?.taskId,
-                    userId: task?.userId,
-                    taskTitle: title,
-                    taskDescription: description);
-
-                if (task != null) {
-                  context.read<TasksCubit>().editTask(task0);
-                } else {
-                  context.read<TasksCubit>().addTask(task0);
-                }
-                AddTaskScreenState._titleController.text = "";
-                AddTaskScreenState._descriptionController.text = "";
-
-                context.read<TasksCubit>().getAllTasks();
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                backgroundColor: const Color(0xFF32CD32),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-              ),
-              child: const Text('Save'),
-            );
-          },
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-            backgroundColor: Colors.red,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
-          child: const Text('Cancel'),
-        ),
-      ],
     );
   }
 }
