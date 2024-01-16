@@ -51,9 +51,10 @@ class TaskCard extends StatelessWidget {
                   width: 10,
                   height: 10,
                   decoration: BoxDecoration(
-                    color:
-                        i < (task.taskPriority ?? 0) ? Colors.red : Colors.grey,
-                    shape: BoxShape.circle,
+                    color: i <= (task.taskPriority ?? 0)
+                        ? MyColorScheme.red
+                        : MyColorScheme.lightGray,
+                    borderRadius: priorityShape,
                   ),
                 ),
             ],

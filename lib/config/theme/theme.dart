@@ -44,3 +44,9 @@ final TextStyle boldTextStyle = TextStyle(
 
 final TextStyle hintTextStyle =
     TextStyle(color: MyColorScheme.lightGray, fontSize: 16);
+
+const priorityShape = BorderRadius.only(
+    topLeft: Radius.circular(2),
+    topRight: Radius.circular(2),
+    bottomLeft: Radius.circular(10),
+    bottomRight: Radius.circular(2));

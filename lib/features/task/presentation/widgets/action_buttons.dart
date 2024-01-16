@@ -25,12 +25,14 @@ class ActionButtons extends StatelessWidget {
                 var title = TaskFormControllers.titleController.text;
                 var description =
                     TaskFormControllers.descriptionController.text;
+                var priority = TaskFormControllers.priorityController;
 
                 final task0 = TaskEntity(
                     taskId: task?.taskId,
                     userId: task?.userId,
                     taskTitle: title,
-                    taskDescription: description);
+                    taskDescription: description,
+                    taskPriority: priority);
 
                 selectedCategories
                     .removeWhere((category, isSelected) => isSelected == false);
@@ -43,6 +45,7 @@ class ActionButtons extends StatelessWidget {
                 }
                 TaskFormControllers.titleController.text = "";
                 TaskFormControllers.descriptionController.text = "";
+                TaskFormControllers.priorityController = 0;
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(

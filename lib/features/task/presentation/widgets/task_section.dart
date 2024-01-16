@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:study_buddy/config/theme/theme.dart';
 import 'package:study_buddy/features/task/domain/entities/task_entity.dart';
 import 'package:study_buddy/features/task/presentation/widgets/task_form_controllers.dart';
 
 class TaskSection extends StatelessWidget {
   final TaskEntity? task;
-
-  const TaskSection({super.key, required this.task});
+  const TaskSection({super.key, this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +20,18 @@ class TaskSection extends StatelessWidget {
           children: [
             TextFormField(
               controller: TaskFormControllers.titleController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Title',
                 hintStyle: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF333333),
+                  color: MyColorScheme.lightGray,
                   fontSize: 18,
                 ),
               ),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF333333),
+                color: MyColorScheme.textColor,
                 fontSize: 18,
               ),
               onChanged: (value) {
@@ -42,22 +42,68 @@ class TaskSection extends StatelessWidget {
             const SizedBox(height: 10),
             TextFormField(
               controller: TaskFormControllers.descriptionController,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Today I will do ... ',
-              ),
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Today I will do ... ',
+                  hintStyle: TextStyle(color: MyColorScheme.lightGray)),
+              style: TextStyle(fontSize: 18, color: MyColorScheme.textColor),
               maxLines: 3,
               onChanged: (value) {
                 TaskFormControllers.descriptionController.text = value;
               },
               onSaved: (value) {},
             ),
+            PriorityDots(task: task)
           ],
         ),
       ),
+    );
+  }
+}
+
+class PriorityDots extends StatefulWidget {
+  final TaskEntity? task;
+  const PriorityDots({super.key, this.task});
+
+  @override
+  State<PriorityDots> createState() => _PriorityDotsState();
+}
+
+class _PriorityDotsState extends State<PriorityDots> {
+  int? priority;
+
+  @override
+  void initState() {
+    priority = widget.task?.taskPriority ?? 0;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        for (int i = 0; i < 3; i++)
+          InkWell(
+            onTap: () {
+              setState(() {
+                priority = i;
+              });
+
+              TaskFormControllers.priorityController = i;
+            },
+            child: Container(
+              width: 20,
+              height: 10,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: (i <= (priority ?? 0))
+                      ? MyColorScheme.red
+                      : MyColorScheme.lightGray,
+                  borderRadius: priorityShape),
+              // child: const Text("Hello"),
+            ),
+          ),
+      ],
     );
   }
 }
