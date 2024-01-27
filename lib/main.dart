@@ -1,3 +1,4 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/config/theme/theme.dart';
@@ -10,6 +11,7 @@ import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_stat
 import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   initializeDependencies();
   runApp(MultiBlocProvider(

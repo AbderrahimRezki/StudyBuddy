@@ -63,7 +63,7 @@ class _NicknamePageState extends State<NicknamePage> {
                       controller: _nicknameController,
                       style: const TextStyle(
                         fontSize: 24,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
@@ -122,6 +122,7 @@ class _NicknamePageState extends State<NicknamePage> {
                   ],
                 ),
               ),
+              
             ),
           ],
         ));
