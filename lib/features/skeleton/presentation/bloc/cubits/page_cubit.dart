@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:study_buddy/core/constants/dummy.dart';
 import 'package:study_buddy/features/community/presentation/pages/community.dart';
-import 'package:study_buddy/features/landing_page/presentation/pages/login.dart';
+import 'package:study_buddy/features/auth/presentation/pages/login.dart';
 import 'package:study_buddy/features/landing_page/presentation/pages/welcome.dart';
 import 'package:study_buddy/features/pomodoro/presentation/pages/pomodoro_timer.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
@@ -14,7 +13,7 @@ class PageCubit extends Cubit<PageState> {
   final Map<String, Widget> pages = {
     StudyBuddyPage.pageRoute: const StudyBuddyPage(),
     NicknamePage.pageRoute: const NicknamePage(),
-    TasksPage.pageRoute: const TasksPage(user: user),
+    TasksPage.pageRoute: const TasksPage(),
     Pomodoro.pageRoute: const Pomodoro(),
     Community.pageRoute: const Community(),
   };
@@ -22,15 +21,11 @@ class PageCubit extends Cubit<PageState> {
   PageCubit() : super(const PageInitialState());
 
   void changePage(String route) {
-    emit(PageState(
-        currentPage: pages[route]!,
-        route: route,
-        loggedInUser: state.loggedInUser));
+    emit(PageState(currentPage: pages[route]!, route: route));
   }
 
   void goToEditTaskPage(TaskEntity task) {
     emit(PageState(
-        loggedInUser: state.loggedInUser,
         currentPage: AddTaskScreenState(task: task),
         route: AddTaskScreenState.pageRoute));
   }

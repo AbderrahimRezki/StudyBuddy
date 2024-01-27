@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/core/constants/time_constants.dart';
+import 'package:study_buddy/dependency_injection.dart';
 import 'package:study_buddy/features/pomodoro/presentation/bloc/states/pomodoro_state.dart';
+import 'package:study_buddy/features/userprofile/bloc/user_cubit.dart';
 
 const initialState = PomodoroInitialState(
     totalTime: thirtyMinutes,
@@ -51,6 +53,10 @@ class PomodoroCubit extends Cubit<PomodoroState> {
     if (!remaining.isNegative) {
       emit(state.copyWith(remainingTime: remaining));
       return;
+    }
+
+    if (!state.isRestTime) {
+      locator<UserCubit>().updateUserProgress(delta: 10);
     }
 
     emit(state.copyWith(

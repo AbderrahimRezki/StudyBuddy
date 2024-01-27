@@ -3,31 +3,25 @@ import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dar
 import 'package:study_buddy/features/community/presentation/widgets/leaderboard/remaining_users_row.dart';
 
 class RemainingUsers extends StatefulWidget {
-  const RemainingUsers({super.key});
+  final List<UserEntity>? users;
+  const RemainingUsers({super.key, this.users});
 
   @override
   State<RemainingUsers> createState() => RemainingUsersState();
 }
 
 class RemainingUsersState extends State<RemainingUsers> {
-  List<UserEntity> users = const [
-    UserEntity(
-        userId: 2,
-        nickName: "Wassim",
-        profilePicturePath: "assets/images/male.png",
-        progress: 50)
-  ];
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView.builder(
-            itemCount: 98,
+            itemCount: widget.users?.length ?? 0,
             itemBuilder: (context, index) => index > 96
                 ? const SizedBox(
                     height: 100,
                   )
                 : RemainingUsersRow(
-                    user: users[0],
+                    user: widget.users![0],
                     index: index,
                   )));
   }

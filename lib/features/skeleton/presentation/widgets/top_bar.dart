@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/config/theme/theme.dart';
-import 'package:study_buddy/features/notifications/notifications.dart';
+import 'package:study_buddy/dependency_injection.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
-import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/avatar_image.dart';
 import 'package:study_buddy/features/skeleton/presentation/widgets/user_progress.dart';
+import 'package:study_buddy/features/userprofile/bloc/user_cubit.dart';
 import 'package:study_buddy/features/userprofile/userprofilescreen.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
@@ -13,8 +13,11 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PageCubit, PageState>(
-      builder: (context, state) {
+    return Builder(
+      builder: (context) {
+        final pageState = context.watch<PageCubit>().state;
+        final userState = context.watch<UserCubit>().state;
+
         return Material(
           color: MyColorScheme.backgroundColor,
           child: Column(
@@ -22,7 +25,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: buildTopBarContent(context, state),
+                child: buildTopBarContent(context, pageState, userState),
               ),
               const Divider(
                 indent: 20,
@@ -35,7 +38,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Row buildTopBarContent(context, state) {
+  Widget buildTopBarContent(context, pageState, userState) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -48,52 +51,66 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                     builder: (context) => const UserProfileScreen()));
           },
           child: AvatarImage(
-              profilePicturePath: state.loggedInUser.profilePicturePath,
+              profilePicturePath:
+                  userState.loggedInUser?.profilePicturePath ?? "",
               radius: 20),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, top: 20),
-          child: buildColumn(state),
+        Expanded(
+          flex: 8,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, top: 20),
+            child: buildColumn(userState),
+          ),
         ),
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationsPage()));
-            },
-            icon: Icon(
-              Icons.notifications,
-              color: MyColorScheme.secondaryColor,
-              size: 32,
-            ))
+        Expanded(
+          flex: 2,
+          child: IconButton(
+              onPressed: () async {
+                locator<UserCubit>().logOut();
+              },
+              icon: Icon(
+                Icons.logout,
+                color: MyColorScheme.red,
+                size: 28,
+              )),
+        )
       ],
     );
   }
 
-  SizedBox buildColumn(state) {
-    return SizedBox(
-      width: 200,
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            buildWelcomeText(state),
-            UserProgress(userProgress: state.loggedInUser.progress),
-          ]),
-    );
+  Widget buildColumn(state) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          buildWelcomeText(state),
+          const SizedBox(
+            height: 8,
+          ),
+          UserProgress(userProgress: (state.loggedInUser?.progress ?? 0) % 100),
+        ]);
   }
 
-  RichText buildWelcomeText(state) {
-    return RichText(
-        text: TextSpan(
-            text: "Hi, ",
-            style: regularTextStyle,
-            children: <TextSpan>[
-          TextSpan(
-            text: "${state.loggedInUser.nickName}!",
-            style: boldTextStyle,
-          )
-        ]));
+  Widget buildWelcomeText(state) {
+    return Row(
+      children: [
+        RichText(
+            text: TextSpan(
+                text: "Hi, ",
+                style: regularTextStyle,
+                children: <TextSpan>[
+              TextSpan(
+                text: "${state.loggedInUser?.nickName}!",
+                style: regularTextStyle.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ])),
+        const Spacer(),
+        Text(
+          "lvl: ${state.loggedInUser?.progress ~/ 100 + 1}",
+          style:
+              boldTextStyle.copyWith(color: MyColorScheme.green, fontSize: 16),
+        ),
+      ],
+    );
   }
 
   @override

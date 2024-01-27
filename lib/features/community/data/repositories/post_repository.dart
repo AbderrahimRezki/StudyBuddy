@@ -9,7 +9,7 @@ class PostRepositoryImpl implements PostRepository {
     return [
       PostEntity(
           user: const UserEntity(
-              userId: 0,
+              userId: '0',
               nickName: "LHouma",
               profilePicturePath: "assets/images/male.png",
               progress: 97),
@@ -18,7 +18,7 @@ class PostRepositoryImpl implements PostRepository {
           claps: 100),
       PostEntity(
           user: const UserEntity(
-              userId: 1,
+              userId: '1',
               nickName: "Samir",
               profilePicturePath: "assets/images/male.png",
               progress: 97),

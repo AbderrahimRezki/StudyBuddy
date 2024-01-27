@@ -1,8 +1,16 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:study_buddy/config/theme/theme.dart';
+import 'package:study_buddy/dependency_injection.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
 import 'package:study_buddy/features/task/presentation/pages/list_tasks.dart';
+import 'package:study_buddy/features/userprofile/bloc/user_cubit.dart';
+import 'package:study_buddy/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NicknamePage extends StatefulWidget {
   static const pageRoute = "/login";
@@ -13,13 +21,66 @@ class NicknamePage extends StatefulWidget {
 }
 
 class _NicknamePageState extends State<NicknamePage> {
-  final _formKey = GlobalKey<FormState>();
-  final _nicknameController = TextEditingController();
+  final _formKey = GlobalKey();
+  bool _isLoading = false;
+  bool _redirecting = false;
+  late final TextEditingController _emailController = TextEditingController();
+  late final StreamSubscription<AuthState> _authStateSubscription;
+
+  @override
+  void initState() {
+    _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      if (_redirecting) return;
+      final session = data.session;
+      if (session != null) {
+        _redirecting = true;
+        locator<PageCubit>().changePage(TasksPage.pageRoute);
+        locator<UserCubit>().getLoggedInUser();
+      }
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
-    _nicknameController.dispose();
+    _emailController.dispose();
+    _authStateSubscription.cancel();
     super.dispose();
+  }
+
+  Future<void> _signIn() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await supabase.auth.signInWithOtp(
+        email: _emailController.text.trim(),
+        emailRedirectTo:
+            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Check your email for a login link!')),
+        );
+        _emailController.clear();
+      }
+    } on AuthException catch (error) {
+      SnackBar(
+        content: Text(error.message),
+        backgroundColor: MyColorScheme.green,
+      );
+    } catch (error) {
+      SnackBar(
+        content: const Text('Unexpected error occurred'),
+        backgroundColor: MyColorScheme.red,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -49,7 +110,7 @@ class _NicknamePageState extends State<NicknamePage> {
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.all(10.0),
                       child: const Text(
-                        'Start by choosing\na nickname',
+                        'Start by entering your email',
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           color: Colors.white,
@@ -60,14 +121,15 @@ class _NicknamePageState extends State<NicknamePage> {
                     ),
                     const Spacer(),
                     TextFormField(
-                      controller: _nicknameController,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
+                      controller: _emailController,
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: MyColorScheme.white,
+                          backgroundColor: MyColorScheme.secondaryColor),
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
-                        hintText: 'Nickname',
+                        hintText: 'Email',
+                        fillColor: blueColor,
                         hintStyle:
                             TextStyle(color: Colors.white.withOpacity(0.7)),
                         contentPadding: const EdgeInsets.symmetric(
@@ -81,7 +143,7 @@ class _NicknamePageState extends State<NicknamePage> {
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Please enter a nickname';
+                          return 'Please enter your email';
                         }
                         return null;
                       },
@@ -93,13 +155,7 @@ class _NicknamePageState extends State<NicknamePage> {
                           alignment: Alignment.center,
                           padding: const EdgeInsets.all(10.0),
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                context
-                                    .read<PageCubit>()
-                                    .changePage(TasksPage.pageRoute);
-                              }
-                            },
+                            onPressed: _isLoading ? null : _signIn,
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: orangeColor,
@@ -113,7 +169,8 @@ class _NicknamePageState extends State<NicknamePage> {
                                 borderRadius: BorderRadius.circular(18),
                               ),
                             ),
-                            child: const Text('Let\'s Go!'),
+                            child: Text(
+                                _isLoading ? 'Loading' : 'Send Magic Link'),
                           ),
                         );
                       },

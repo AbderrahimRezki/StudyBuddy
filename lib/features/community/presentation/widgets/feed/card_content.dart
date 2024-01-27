@@ -16,7 +16,8 @@ class CardContent extends StatelessWidget {
           Row(
             children: [
               AvatarImage(
-                  profilePicturePath: post.user.profilePicturePath, radius: 20),
+                  profilePicturePath: post.user.profilePicturePath ?? "",
+                  radius: 20),
               const SizedBox(
                 width: 8,
               ),

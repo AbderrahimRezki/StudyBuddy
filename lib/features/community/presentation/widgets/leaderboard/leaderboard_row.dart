@@ -11,12 +11,11 @@ class LeaderBoardRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AvatarImageWithRank(user: topUsers[0], rank: 1),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            AvatarImageWithRank(user: topUsers[0], rank: 2),
-            AvatarImageWithRank(user: topUsers[0], rank: 3),
+            for (int i = 0; i < topUsers.length; i++)
+              AvatarImageWithRank(user: topUsers[i], rank: (i + 1)),
           ],
         )
       ],

@@ -30,7 +30,7 @@ class RemainingUsersRow extends StatelessWidget {
                 width: 10,
               ),
               AvatarImage(
-                profilePicturePath: user.profilePicturePath,
+                profilePicturePath: user.profilePicturePath ?? "",
                 radius: 25,
               ),
               const SizedBox(

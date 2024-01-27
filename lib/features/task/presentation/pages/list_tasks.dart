@@ -6,15 +6,13 @@ import 'package:study_buddy/features/task/presentation/widgets/dismissible_task_
 import 'package:study_buddy/features/task/presentation/widgets/task_card.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_state.dart';
-import 'package:study_buddy/features/userprofile/domain/entities/user_entity.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/cubits/page_cubit.dart';
 import 'package:study_buddy/features/skeleton/presentation/bloc/states/page_state.dart';
 import 'package:study_buddy/features/task/presentation/pages/add_task.dart';
 
 class TasksPage extends StatelessWidget {
   static const pageRoute = "/task";
-  final UserEntity user;
-  const TasksPage({super.key, required this.user});
+  const TasksPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,7 @@ class AvatarImageWithRank extends StatelessWidget {
         border: Border.all(color: MyColorScheme.green, width: 5),
       ),
       child: AvatarImage(
-        profilePicturePath: user.profilePicturePath,
+        profilePicturePath: user.profilePicturePath ?? "assets/images/male.png",
         radius: 40,
       ),
     );

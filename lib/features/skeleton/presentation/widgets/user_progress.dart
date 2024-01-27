@@ -11,9 +11,8 @@ class UserProgress extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 150,
-          height: 8,
+        Expanded(
+          flex: 10,
           child: ProgressBar(
               value: userProgress / 100,
               foregroundColor: MyColorScheme.green,

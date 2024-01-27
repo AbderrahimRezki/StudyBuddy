@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:study_buddy/features/community/data/repositories/post_repository.dart';
 import 'package:study_buddy/features/community/domain/usecases/get_all_posts.dart';
@@ -19,6 +20,7 @@ import 'package:study_buddy/features/task/domain/usecases/get_pending_tasks.dart
 import 'package:study_buddy/features/task/domain/usecases/mark_task_as_done.dart';
 import 'package:study_buddy/features/task/presentation/bloc/categories_cubit.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
+import 'package:study_buddy/features/userprofile/bloc/user_cubit.dart';
 
 final locator = GetIt.instance;
 
@@ -71,4 +73,8 @@ void initializeDependencies() async {
   locator.registerSingleton(TasksCubit(
       locator(), locator(), locator(), locator(), locator(), locator()));
   locator.registerSingleton(CategoryCubit(locator()));
+  locator.registerSingleton(UserCubit());
+
+  // API
+  locator.registerSingleton(Dio());
 }

@@ -37,7 +37,7 @@ final ThemeData themeData = ThemeData(
     colorScheme: colorScheme);
 
 final TextStyle regularTextStyle =
-    TextStyle(color: MyColorScheme.textColor, fontSize: 18);
+    TextStyle(color: MyColorScheme.textColor, fontSize: 16);
 
 final TextStyle boldTextStyle = TextStyle(
     color: MyColorScheme.textColor, fontSize: 18, fontWeight: FontWeight.bold);

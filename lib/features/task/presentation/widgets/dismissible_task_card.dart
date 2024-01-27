@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_buddy/config/theme/theme.dart';
+import 'package:study_buddy/dependency_injection.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_cubit.dart';
 import 'package:study_buddy/features/task/presentation/bloc/task_state.dart';
 import 'package:study_buddy/features/task/presentation/widgets/task_card.dart';
+import 'package:study_buddy/features/userprofile/bloc/user_cubit.dart';
 
 class DismissibleTaskCard extends StatelessWidget {
   final TaskCard taskCard;
@@ -43,10 +45,12 @@ class DismissibleTaskCard extends StatelessWidget {
           child: taskCard,
           onDismissed: (direction) {
             if (direction == DismissDirection.startToEnd) {
-              context.read<TasksCubit>().markTaskAsDone(taskCard.task);
+              locator<TasksCubit>().markTaskAsDone(taskCard.task);
+              locator<UserCubit>().updateUserProgress(
+                  delta: ((taskCard.task.taskPriority ?? 0) + 1) * 5);
             }
             if (direction == DismissDirection.endToStart) {
-              context.read<TasksCubit>().deleteTask(taskCard.task);
+              locator<TasksCubit>().deleteTask(taskCard.task);
             }
           },
         );
